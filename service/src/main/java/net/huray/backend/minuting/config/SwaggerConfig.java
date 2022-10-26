@@ -19,7 +19,7 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.OAS_30)
                 .useDefaultResponseMessages(false)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("net.huray.example"))
+                .apis(RequestHandlerSelectors.basePackage("net.huray.backend"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(apiInfo());
