@@ -1,0 +1,11 @@
+project.archivesBaseName = "backend-service-minuting-domain"
+version = '0.0.1-SNAPSHOT'
+
+bootJar.enabled = false
+jar.enabled = true
+
+dependencies {
+    implementation "javax.validation:validation-api"
+    implementation "org.springframework:spring-webmvc"
+}
+
