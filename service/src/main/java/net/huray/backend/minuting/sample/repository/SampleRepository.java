@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.repository;
+package net.huray.backend.minuting.sample.repository;
 
 import net.huray.backend.minuting.entity.SampleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

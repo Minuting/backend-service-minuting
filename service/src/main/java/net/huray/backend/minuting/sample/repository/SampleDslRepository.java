@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.repository;
+package net.huray.backend.minuting.sample.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

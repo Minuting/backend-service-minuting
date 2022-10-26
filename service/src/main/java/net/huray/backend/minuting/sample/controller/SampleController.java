@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.controller;
+package net.huray.backend.minuting.sample.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -7,7 +7,7 @@ import net.huray.backend.minuting.domain.SampleCreateReq;
 import net.huray.backend.minuting.domain.SampleListReq;
 import net.huray.backend.minuting.domain.SampleSimple;
 import net.huray.backend.minuting.domain.SampleUpdateReq;
-import net.huray.backend.minuting.service.SampleService;
+import net.huray.backend.minuting.sample.service.SampleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
