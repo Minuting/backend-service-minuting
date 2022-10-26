@@ -2,10 +2,10 @@ package net.huray.backend.minuting.contract;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.huray.backend.minuting.domain.SampleListReq;
-import net.huray.backend.minuting.domain.SampleUpdateReq;
-import net.huray.backend.minuting.domain.SampleCreateReq;
-import net.huray.backend.minuting.domain.SampleSimple;
+import net.huray.backend.minuting.dto.SampleListReq;
+import net.huray.backend.minuting.dto.SampleUpdateReq;
+import net.huray.backend.minuting.dto.SampleCreateReq;
+import net.huray.backend.minuting.dto.SampleSimple;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 

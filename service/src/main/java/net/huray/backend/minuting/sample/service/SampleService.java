@@ -1,10 +1,10 @@
 package net.huray.backend.minuting.sample.service;
 
 import lombok.RequiredArgsConstructor;
-import net.huray.backend.minuting.domain.SampleCreateReq;
-import net.huray.backend.minuting.domain.SampleListReq;
-import net.huray.backend.minuting.domain.SampleSimple;
-import net.huray.backend.minuting.domain.SampleUpdateReq;
+import net.huray.backend.minuting.dto.SampleCreateReq;
+import net.huray.backend.minuting.dto.SampleListReq;
+import net.huray.backend.minuting.dto.SampleSimple;
+import net.huray.backend.minuting.dto.SampleUpdateReq;
 import net.huray.backend.minuting.entity.SampleEntity;
 import net.huray.backend.minuting.sample.repository.SampleDslRepository;
 import net.huray.backend.minuting.sample.repository.SampleRepository;
