@@ -1,6 +1,6 @@
-package net.huray.example.template.repository;
+package net.huray.backend.minuting.repository;
 
-import net.huray.example.template.entity.SampleEntity;
+import net.huray.backend.minuting.entity.SampleEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 

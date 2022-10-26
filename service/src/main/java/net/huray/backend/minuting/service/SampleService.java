@@ -1,13 +1,13 @@
-package net.huray.example.template.service;
+package net.huray.backend.minuting.service;
 
 import lombok.RequiredArgsConstructor;
-import net.huray.example.template.domain.SampleCreateReq;
-import net.huray.example.template.domain.SampleListReq;
-import net.huray.example.template.domain.SampleSimple;
-import net.huray.example.template.domain.SampleUpdateReq;
-import net.huray.example.template.entity.SampleEntity;
-import net.huray.example.template.repository.SampleDslRepository;
-import net.huray.example.template.repository.SampleRepository;
+import net.huray.backend.minuting.domain.SampleCreateReq;
+import net.huray.backend.minuting.domain.SampleListReq;
+import net.huray.backend.minuting.domain.SampleSimple;
+import net.huray.backend.minuting.domain.SampleUpdateReq;
+import net.huray.backend.minuting.entity.SampleEntity;
+import net.huray.backend.minuting.repository.SampleDslRepository;
+import net.huray.backend.minuting.repository.SampleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

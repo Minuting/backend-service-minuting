@@ -1,9 +1,9 @@
-package net.huray.example.template.entity;
+package net.huray.backend.minuting.entity;
 
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.example.template.entity.common.BaseDateTimeEntity;
+import net.huray.backend.minuting.entity.common.BaseDateTimeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

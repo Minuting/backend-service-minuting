@@ -1,4 +1,4 @@
-package net.huray.example.template.domain;
+package net.huray.backend.minuting.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

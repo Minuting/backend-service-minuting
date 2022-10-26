@@ -1,4 +1,4 @@
-package net.huray.example.template.config;
+package net.huray.backend.minuting.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.modelmapper.ModelMapper;

@@ -1,4 +1,4 @@
-package net.huray.example.template.entity.common;
+package net.huray.backend.minuting.entity.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

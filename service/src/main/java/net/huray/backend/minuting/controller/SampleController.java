@@ -1,13 +1,13 @@
-package net.huray.example.template.controller;
+package net.huray.backend.minuting.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.huray.example.template.contract.SampleContract;
-import net.huray.example.template.domain.SampleCreateReq;
-import net.huray.example.template.domain.SampleListReq;
-import net.huray.example.template.domain.SampleSimple;
-import net.huray.example.template.domain.SampleUpdateReq;
-import net.huray.example.template.service.SampleService;
+import net.huray.backend.minuting.contract.SampleContract;
+import net.huray.backend.minuting.domain.SampleCreateReq;
+import net.huray.backend.minuting.domain.SampleListReq;
+import net.huray.backend.minuting.domain.SampleSimple;
+import net.huray.backend.minuting.domain.SampleUpdateReq;
+import net.huray.backend.minuting.service.SampleService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

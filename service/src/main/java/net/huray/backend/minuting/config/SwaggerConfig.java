@@ -1,4 +1,4 @@
-package net.huray.example.template.config;
+package net.huray.backend.minuting.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
