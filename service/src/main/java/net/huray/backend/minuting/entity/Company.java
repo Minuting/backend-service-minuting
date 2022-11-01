@@ -33,8 +33,4 @@ public class Company extends BaseDateTimeEntity {
 
     private String serviceKey;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
-
 }

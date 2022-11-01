@@ -2,10 +2,12 @@ package net.huray.backend.minuting.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
@@ -15,21 +17,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import net.huray.backend.minuting.entity.common.BaseDateTimeEntity;
 
-@Getter
-@Entity(name = "permission")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Permission extends BaseDateTimeEntity {
 
-    @Id
-    @GeneratedValue(strategy = IDENTITY)
-    private Long id;
-
-    @Enumerated
-    private PermissionType type;
+@Entity
+@DiscriminatorValue("TeamPermission")
+public class TeamPermission extends Permission{
 
     @ManyToOne
-    @JoinColumn(name = "space_id")
-    private Space space;
+    @JoinColumn(name = "team_id", nullable = true)
+    private Team team;
 
 }

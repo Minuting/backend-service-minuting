@@ -2,11 +2,14 @@ package net.huray.backend.minuting.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +26,17 @@ public class Space extends BaseDateTimeEntity {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
+    private String description;
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    private User owner;
+    private Member owner;
+
+
+    @OneToMany(mappedBy = "space")
+    private List<TeamPermission> teamPermissions = new ArrayList<>();
+
+    @OneToMany(mappedBy = "space")
+    private List<MemberPermission> memberPermissions = new ArrayList<>();
+
 }

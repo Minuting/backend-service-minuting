@@ -2,36 +2,30 @@ package net.huray.backend.minuting.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.entity.Company;
 import net.huray.backend.minuting.entity.common.BaseDateTimeEntity;
 
 @Getter
-@Entity(name = "team_user")
+@Entity(name = "minutes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TeamUser extends BaseDateTimeEntity {
+public class Minutes extends BaseDateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
+    private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Team team;
-
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
+    @OneToMany(mappedBy = "minutes")
+    private List<MinutesAttendee> attendees = new ArrayList<>();
 
 
 }
