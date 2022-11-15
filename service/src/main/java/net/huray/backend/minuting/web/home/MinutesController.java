@@ -18,7 +18,7 @@ public class MinutesController implements MinutesContract {
 
     @Override
     public MinutesDto.MinutesSimple create(MinutesDto.CreateReq req) {
-        return minutesWriteService.createMinutes(req);
+        return minutesWriteService.create(req);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MinutesController implements MinutesContract {
 
     @Override
     public void update(Long id, MinutesDto.UpdateReq req) {
-
+        minutesWriteService.update(id, req);
     }
 
     @Override

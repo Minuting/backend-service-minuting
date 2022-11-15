@@ -26,12 +26,20 @@ public class MinutesEntity extends BaseDateTimeEntity {
 
     private String contents;
 
+    @OneToMany(mappedBy = "minutes")
+    private List<MinutesAttendee> attendees = new ArrayList<>();
+
     public MinutesEntity(String title, String contents) {
         this.title = title;
         this.contents = contents;
     }
 
-    @OneToMany(mappedBy = "minutes")
-    private List<MinutesAttendee> attendees = new ArrayList<>();
+    /*
+    Utils
+    */
+    public void updateMinutes(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
+    }
 
 }
