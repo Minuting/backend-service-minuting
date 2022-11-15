@@ -36,6 +36,7 @@ subprojects {
 
     dependencies {
         implementation 'io.springfox:springfox-boot-starter:3.0.0'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
         implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
         annotationProcessor(
                 "javax.persistence:javax.persistence-api",
