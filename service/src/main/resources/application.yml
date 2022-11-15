@@ -1,2 +1,19 @@
-server:
-  port: 8081
+spring:
+  application:
+    name: backend-service-minuting
+
+  datasource:
+    url: ${DB_URL}
+    driver-class-name: com.mysql.jdbc.Driver
+    username: '${DB_USER}'
+    password: '${DB_PASS}'
+  jpa:
+    database: mysql
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    generate-ddl: false
+    properties:
+      hibernate:
+        format_sql: true
