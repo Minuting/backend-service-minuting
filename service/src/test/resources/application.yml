@@ -1,0 +1,7 @@
+server:
+  port: 8081
+feign:
+  retry:
+    period: 1000
+    max-period: 2000
+    max-attempts: 1

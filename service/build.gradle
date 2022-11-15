@@ -7,6 +7,8 @@ buildscript {
     }
 }
 
+apply plugin: 'groovy'
+
 dependencies {
     implementation project(":domain")
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -20,4 +22,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
+    testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
+    testRuntimeOnly 'org.codehaus.groovy:groovy:3.0.8'
 }
