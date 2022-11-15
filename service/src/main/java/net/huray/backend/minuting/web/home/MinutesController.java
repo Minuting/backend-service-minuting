@@ -23,12 +23,12 @@ public class MinutesController implements MinutesContract {
 
     @Override
     public List<MinutesDto.MinutesSimple> listSimple() {
-        return null;
+        return minutesReadService.list();
     }
 
     @Override
     public MinutesDto.MinutesDetail getDetail(Long id) {
-        return null;
+        return minutesReadService.getDetailById(id);
     }
 
     @Override

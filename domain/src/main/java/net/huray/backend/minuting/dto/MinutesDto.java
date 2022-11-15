@@ -1,10 +1,9 @@
 package net.huray.backend.minuting.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -29,11 +28,15 @@ public class MinutesDto {
     @ApiModel("회의록 상세 정보")
     @AllArgsConstructor
     @NoArgsConstructor
+    @Getter
+    @Setter
     public static class MinutesDetail extends MinutesSimple {
         @ApiModelProperty("회의록 생성 일자")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDateTime createdAt;
 
         @ApiModelProperty("회의록 최종 업데이트 일자")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         LocalDateTime updatedAt;
     }
 
