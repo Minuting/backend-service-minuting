@@ -11,11 +11,12 @@ import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.huray.backend.minuting.entity.common.BaseDateTimeEntity;
 
 @Getter
 @Entity(name = "minutes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MinutesEntity {
+public class MinutesEntity extends BaseDateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -23,8 +24,14 @@ public class MinutesEntity {
 
     private String title;
 
+    private String contents;
+
+    public MinutesEntity(String title, String contents) {
+        this.title = title;
+        this.contents = contents;
+    }
+
     @OneToMany(mappedBy = "minutes")
     private List<MinutesAttendee> attendees = new ArrayList<>();
-
 
 }
