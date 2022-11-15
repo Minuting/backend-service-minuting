@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.tag;
+package net.huray.backend.minuting.entity;
 
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import net.huray.backend.minuting.enums.TagType;
 
 
 @Getter

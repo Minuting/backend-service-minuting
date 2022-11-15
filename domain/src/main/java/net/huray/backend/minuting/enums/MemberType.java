@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.account;
+package net.huray.backend.minuting.enums;
 
 public enum MemberType {
     MEMBER,

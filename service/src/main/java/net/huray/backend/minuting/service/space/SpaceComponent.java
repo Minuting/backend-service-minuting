@@ -2,11 +2,11 @@ package net.huray.backend.minuting.service.space;
 
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import net.huray.backend.minuting.account.Member;
-import net.huray.backend.minuting.space.Permission;
-import net.huray.backend.minuting.space.PermissionRepository;
-import net.huray.backend.minuting.space.Space;
-import net.huray.backend.minuting.space.SpaceRepository;
+import net.huray.backend.minuting.entity.Member;
+import net.huray.backend.minuting.entity.Permission;
+import net.huray.backend.minuting.repository.PermissionRepository;
+import net.huray.backend.minuting.entity.Space;
+import net.huray.backend.minuting.repository.SpaceRepository;
 import org.springframework.stereotype.Component;
 
 @Component

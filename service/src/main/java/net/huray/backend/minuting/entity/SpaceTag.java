@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.space;
+package net.huray.backend.minuting.entity;
 
 
 import javax.persistence.Entity;
@@ -10,7 +10,6 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.tag.Tag;
 
 @Getter
 @Entity(name = "space_tag")

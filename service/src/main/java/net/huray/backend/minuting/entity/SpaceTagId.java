@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.space;
+package net.huray.backend.minuting.entity;
 
 
 import java.io.Serializable;
@@ -6,7 +6,6 @@ import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.tag.Tag;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

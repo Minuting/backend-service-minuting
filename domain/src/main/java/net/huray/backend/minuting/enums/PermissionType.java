@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.space;
+package net.huray.backend.minuting.enums;
 
 public enum PermissionType {
     READ,

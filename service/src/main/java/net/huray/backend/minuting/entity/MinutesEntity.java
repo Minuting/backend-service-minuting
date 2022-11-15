@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.minutes;
+package net.huray.backend.minuting.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -11,12 +11,11 @@ import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.base.BaseDateTimeEntity;
 
 @Getter
 @Entity(name = "minutes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MinutesEntity extends BaseDateTimeEntity {
+public class MinutesEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

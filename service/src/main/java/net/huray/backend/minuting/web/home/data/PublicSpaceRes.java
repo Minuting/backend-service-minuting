@@ -2,7 +2,7 @@ package net.huray.backend.minuting.web.home.data;
 
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
-import net.huray.backend.minuting.space.Space;
+import net.huray.backend.minuting.entity.Space;
 
 @SuperBuilder
 @Getter

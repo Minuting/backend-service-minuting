@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.minutes;
+package net.huray.backend.minuting.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,7 +9,6 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.account.Member;
 
 @Getter
 @Entity(name = "minutes_attendee")
