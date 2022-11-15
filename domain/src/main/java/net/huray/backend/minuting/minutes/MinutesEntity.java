@@ -16,7 +16,7 @@ import net.huray.backend.minuting.base.BaseDateTimeEntity;
 @Getter
 @Entity(name = "minutes")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Minutes extends BaseDateTimeEntity {
+public class MinutesEntity extends BaseDateTimeEntity {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

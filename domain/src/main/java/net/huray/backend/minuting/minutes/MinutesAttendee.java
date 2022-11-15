@@ -20,7 +20,7 @@ public class MinutesAttendee {
     @Id
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "minutes_id")
-    private Minutes minutes;
+    private MinutesEntity minutes;
 
     @Id
     @ManyToOne(fetch = FetchType.LAZY)

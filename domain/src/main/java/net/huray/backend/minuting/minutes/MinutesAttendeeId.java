@@ -10,7 +10,7 @@ import net.huray.backend.minuting.account.Member;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MinutesAttendeeId implements Serializable {
-    private Minutes minutes;
+    private MinutesEntity minutes;
     private Member member;
 
     @Override
