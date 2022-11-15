@@ -27,7 +27,11 @@ public class MinutesWriteService {
     public void update(Long id, MinutesDto.UpdateReq req) {
         MinutesEntity minutesEntity = minutesRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-        
+
         minutesEntity.updateMinutes(req.getTitle(), req.getContents());
+    }
+
+    public void hardDelete(Long id) {
+        minutesRepository.deleteById(id);
     }
 }

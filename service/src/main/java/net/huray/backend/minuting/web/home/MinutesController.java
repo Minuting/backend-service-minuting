@@ -38,6 +38,6 @@ public class MinutesController implements MinutesContract {
 
     @Override
     public void delete(Long id) {
-
+        minutesWriteService.hardDelete(id);
     }
 }
