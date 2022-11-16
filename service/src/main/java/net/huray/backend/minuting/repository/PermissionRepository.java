@@ -1,9 +1,11 @@
-package net.huray.backend.minuting.space;
+package net.huray.backend.minuting.repository;
+
+import net.huray.backend.minuting.entity.Member;
+import net.huray.backend.minuting.entity.Permission;
+import net.huray.backend.minuting.entity.Team;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
-import net.huray.backend.minuting.account.Member;
-import net.huray.backend.minuting.account.Team;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PermissionRepository extends JpaRepository<Permission, Long> {
 

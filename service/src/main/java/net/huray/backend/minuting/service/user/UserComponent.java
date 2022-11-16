@@ -2,8 +2,8 @@ package net.huray.backend.minuting.service.user;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import net.huray.backend.minuting.account.Member;
-import net.huray.backend.minuting.account.MemberRepository;
+import net.huray.backend.minuting.entity.Member;
+import net.huray.backend.minuting.repository.MemberRepository;
 import org.springframework.stereotype.Component;
 
 @Component

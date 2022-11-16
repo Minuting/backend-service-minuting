@@ -1,21 +1,23 @@
-package net.huray.backend.minuting.account;
+package net.huray.backend.minuting.entity;
 
-import static javax.persistence.GenerationType.IDENTITY;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.base.BaseDateTimeEntity;
+import net.huray.backend.minuting.entity.common.BaseDateTimeEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 
 @Getter
 @Entity(name = "company")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Company extends BaseDateTimeEntity {
+
     @Id
-    @GeneratedValue(strategy = IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

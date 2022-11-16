@@ -1,4 +1,4 @@
-package net.huray.backend.minuting.account;
+package net.huray.backend.minuting.entity;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -10,12 +10,11 @@ import javax.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.base.BaseDateTimeEntity;
 
 @Getter
 @Entity(name = "team")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Team  extends BaseDateTimeEntity {
+public class Team {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)

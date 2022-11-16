@@ -3,7 +3,7 @@ package net.huray.backend.minuting.web.home.data;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import net.huray.backend.minuting.account.Company;
+import net.huray.backend.minuting.entity.Company;
 
 @Builder
 @Getter

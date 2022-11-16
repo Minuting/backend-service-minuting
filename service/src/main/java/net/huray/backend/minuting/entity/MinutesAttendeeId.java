@@ -1,16 +1,15 @@
-package net.huray.backend.minuting.minutes;
+package net.huray.backend.minuting.entity;
 
 import java.io.Serializable;
 import java.util.Objects;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import net.huray.backend.minuting.account.Member;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MinutesAttendeeId implements Serializable {
-    private Minutes minutes;
+    private MinutesEntity minutes;
     private Member member;
 
     @Override

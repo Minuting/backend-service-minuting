@@ -2,7 +2,7 @@ package net.huray.backend.minuting.service.user;
 
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
-import net.huray.backend.minuting.account.Member;
+import net.huray.backend.minuting.entity.Member;
 import net.huray.backend.minuting.service.space.SpaceComponent;
 import net.huray.backend.minuting.web.home.data.BaseInfoRes;
 import net.huray.backend.minuting.web.home.data.SpaceRes;
