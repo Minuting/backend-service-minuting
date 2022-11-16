@@ -1,3 +1,6 @@
+server:
+  port: 8081
+  
 spring:
   application:
     name: backend-service-minuting
@@ -17,3 +20,8 @@ spring:
     properties:
       hibernate:
         format_sql: true
+feign:
+  retry:
+    period: 1000
+    max-period: 10000
+    max-attempts: 5
