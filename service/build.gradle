@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'groovy'
 
 dependencies {
+    implementation project(":http")
     implementation project(":domain")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
