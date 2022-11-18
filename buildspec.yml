@@ -42,13 +42,15 @@ phases:
       - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - echo Build started on `date`
-      - mvn install
+      - echo Build Starting on `date`
+      - chmod +x ./gradlew
+      - ./gradlew build
   post_build:
     commands:
-      - echo Build completed on `date`
+      - echo $(basename ./build/libs/*.jar)
+      - pwd
 artifacts:
   name: backend-service-minuting
   files:
-    - backend-service-minuting.jar
+    - build/libs/*.jar
     - .ebextensions/**/*
