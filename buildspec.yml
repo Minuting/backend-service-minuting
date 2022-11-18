@@ -52,5 +52,5 @@ phases:
 artifacts:
   name: backend-service-minuting
   files:
-    - build/libs/*.jar
+    - ./build/libs/*.jar
     - .ebextensions/**/*
