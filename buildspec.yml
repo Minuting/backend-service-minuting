@@ -40,15 +40,15 @@ phases:
   pre_build:
     commands:
       - echo Nothing to do in the pre_build phase...
-    build:
-      commands:
-        - echo Build started on `date`
-        - mvn install
-    post_build:
-      commands:
-        - echo Build completed on `date`
-  artifacts:
-    name: backend-service-minuting
-    files:
-      - backend-service-minuting.jar
-      - .ebextensions/**/*
+  build:
+    commands:
+      - echo Build started on `date`
+      - mvn install
+  post_build:
+    commands:
+      - echo Build completed on `date`
+artifacts:
+  name: backend-service-minuting
+  files:
+    - backend-service-minuting.jar
+    - .ebextensions/**/*
