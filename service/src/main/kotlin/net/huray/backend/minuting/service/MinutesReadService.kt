@@ -9,8 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class MinutesReadService(
-    private val minutesRepository: MinutesRepository,
-    private val modelMapper: ModelMapper
+    private val minutesRepository: MinutesRepository
 ) {
 
     fun list() = minutesRepository.findAll()
