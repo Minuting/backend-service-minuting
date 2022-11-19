@@ -1,5 +1,7 @@
 package net.huray.backend.minuting.controller
 
+import net.huray.backend.http.res.ListResult
+import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.MinutesContract
 import net.huray.backend.minuting.dto.MinutesDto
 import net.huray.backend.minuting.service.MinutesReadService
@@ -12,11 +14,11 @@ class MinutesController(
     private val minutesWriteService: MinutesWriteService
 ) : MinutesContract {
 
-    override fun create(req: MinutesDto.CreateReq): MinutesDto.MinutesSimple = minutesWriteService.create(req)
+    override fun create(req: MinutesDto.CreateReq) = SingleResult(minutesWriteService.create(req))
 
-    override fun listSimple(): List<MinutesDto.MinutesSimple> = minutesReadService.list()
+    override fun listSimple() = ListResult(minutesReadService.list())
 
-    override fun getDetail(id: Long): MinutesDto.MinutesDetail = minutesReadService.getDetailById(id)
+    override fun getDetail(id: Long) = SingleResult(minutesReadService.getDetailById(id))
 
     override fun update(
         id: Long,
