@@ -1,4 +1,5 @@
 rootProject.name = 'backend-service-minuting'
 include 'domain'
 include 'service'
+include 'http'
 
