@@ -13,6 +13,10 @@ phases:
       - echo Nothing to do in the pre_build phase...
   build:
     commands:
+      - cd $CODEBUILD_SRC_DIR/ubuntu/standard/5.0
+      - docker build -t aws/codebuild/standard:5.0 .
+      - cd $CODEBUILD_SRC_DIR/al2/x86_64/standard/3.0
+      - docker build -t aws/codebuild/amazonlinux2-x86_64-standard:3.0 .
       - echo Build Starting on `date`
       - chmod +x ./gradlew
       - ./gradlew build
