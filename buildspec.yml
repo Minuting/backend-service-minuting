@@ -51,4 +51,4 @@ phases:
       - pwd
 artifacts:
   files:
-    - $CODEBUILD_SRC_DIR/*.jar
+    - '**/*'
