@@ -10,19 +10,24 @@ object CommentDto {
 
     @ApiIgnore
     open class CommentBase(
+        @ApiModelProperty("댓글 ID")
+        var commentId: Long,
+
         @ApiModelProperty("댓글 내용")
         var contents: String
     )
 
     @ApiModel("댓글 기본 응답 정보")
     open class CommentSimple(
+        commentId: Long,
         contents: String
-    ) : CommentBase(contents)
+    ) : CommentBase(commentId, contents)
 
     @ApiModel("댓글 상세 응답 정보")
     class CommentDetail(
+        commentId: Long,
         contents: String
-    ) : CommentSimple(contents) {
+    ) : CommentSimple(commentId, contents) {
         @ApiModelProperty("댓글 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var createdAt: LocalDateTime? = null

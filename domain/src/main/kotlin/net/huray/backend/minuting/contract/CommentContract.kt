@@ -22,7 +22,7 @@ interface CommentContract {
 
     @ApiOperation("댓글 리스트")
     @GetMapping(COMMENTS, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun list(
+    fun listSimple(
         @PathVariable minutesId: Long
     ): ListResult<CommentDto.CommentSimple>
 

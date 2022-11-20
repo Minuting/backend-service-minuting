@@ -24,6 +24,22 @@ class CommentService(
                         commentRepository.save(it)
                     }
             }
-            .let { CommentDto.CommentSimple(it.contents) }
+            .let { CommentDto.CommentSimple(it.id, it.contents) }
+
+    fun list(minutesId: Long) = minutesRepository.findById(minutesId)
+        .orElseThrow { throw NotFoundException(ErrorMessages.MINUTES_NOT_FOUND, minutesId) }
+        .let { minutesEntity ->
+            commentRepository.findAllByMinutes(minutesEntity)
+                .map { CommentDto.CommentSimple(it.id, it.contents) }
+        }
+
+    fun getComment(minutesId: Long, commentId: Long) = minutesRepository.findById(minutesId)
+        .orElseThrow { throw NotFoundException(ErrorMessages.MINUTES_NOT_FOUND, minutesId) }
+        .let {
+            commentRepository.findById(commentId)
+                .orElseThrow { throw NotFoundException(ErrorMessages.COMMENT_NOT_FOUND, commentId) }
+                .let { CommentDto.CommentDetail(it.id, it.contents)
+                    .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }}
+        }
 
 }
