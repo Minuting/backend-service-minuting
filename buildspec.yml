@@ -51,5 +51,4 @@ phases:
       - pwd
 artifacts:
   files:
-    - ./*.jar
-    - .ebextensions/**/*
+    - $CODEBUILD_SRC_DIR/*.jar
