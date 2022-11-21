@@ -30,7 +30,6 @@ phases:
       - echo $(basename ./build/libs/*.jar)
       - pwd
 artifacts:
-  commands:
-    - cd ./service/build/libs
   files:
-    - 'backend-service-minuting-0.0.1.jar'
+    - './service/build/libs/backend-service-minuting-0.0.1.jar'
+  discard-paths: yes
