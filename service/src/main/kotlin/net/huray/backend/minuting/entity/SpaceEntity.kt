@@ -1,25 +1,27 @@
 package net.huray.backend.minuting.entity
 
+import net.huray.backend.minuting.entity.common.BaseDateTimeEntity
+import java.util.*
 import javax.persistence.*
 
 @Entity(name = "spaces")
-class SpaceEntity {
+class SpaceEntity (
+        var name: String = "",
+        var description: String = "",
+        var icon: String = "",
+        var isPublic: Boolean = false
+):BaseDateTimeEntity(){
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
 
-    var name: String = ""
+    @Column(name="owner_id", insertable = false, updatable = false)
+    var ownerId: UUID = UUID.randomUUID();
 
-    var description: String = ""
-
-    var icon: String = ""
-
-    @ManyToOne
-    @JoinColumn(name = "owner_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "owner_id", referencedColumnName = "uid")
     lateinit var owner: MemberEntity
-
-    var isPublic: Boolean = false
 
     @OneToMany(mappedBy = "space", fetch = FetchType.LAZY)
     var permissions: MutableList<PermissionEntity> = mutableListOf()

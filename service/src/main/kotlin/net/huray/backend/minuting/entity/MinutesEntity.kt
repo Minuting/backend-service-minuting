@@ -14,6 +14,10 @@ class MinutesEntity(
     @Column(name = "minutes_id")
     var id: Long = 0L
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "space_id")
+    lateinit var space: SpaceEntity
+
     @OneToMany(mappedBy = "minutes")
     var attendees: MutableList<MinutesAttendee> = mutableListOf()
 

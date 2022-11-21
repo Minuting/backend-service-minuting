@@ -15,6 +15,7 @@ class TeamEntity {
 
     lateinit var name: String
 
-    var pId: Long = 0L
+    @Column( nullable = true )
+    var pId: Long? = null
 
 }

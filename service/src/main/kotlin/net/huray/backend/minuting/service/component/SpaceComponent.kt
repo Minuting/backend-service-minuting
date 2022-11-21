@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service.component
 
 import net.huray.backend.minuting.entity.MemberEntity
+import net.huray.backend.minuting.entity.SpaceEntity
 import net.huray.backend.minuting.repository.PermissionRepository
 import net.huray.backend.minuting.repository.SpaceRepository
 import org.springframework.stereotype.Component
@@ -11,9 +12,15 @@ class SpaceComponent(
     private val permissionRepository: PermissionRepository
 ) {
 
+    fun get(id: Long) =
+            spaceRepository.findById(id)
+
     fun listPermissionByMember(member: MemberEntity) =
-        permissionRepository.findDistinctByMemberOrTeam(member, member.team)
+        permissionRepository.findByMember(member)
 
-    fun listPublicSpace() = spaceRepository.findByIsPublicTrue()
+    fun getPermissionBySpaceAndMember(space: SpaceEntity, member: MemberEntity) =
+            permissionRepository.findBySpaceAndMember(space, member)
+    fun listPublic() = spaceRepository.findByIsPublicTrue()
 
+    fun save(space: SpaceEntity) = spaceRepository.save(space)
 }
