@@ -6,6 +6,9 @@ buildscript {
         openfeignVersion = '3.1.5'
     }
 }
+springBoot {
+    mainClass = 'net.huray.backend.minuting.MinutingApplication'
+}
 
 apply plugin: 'groovy'
 
