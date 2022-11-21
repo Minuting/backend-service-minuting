@@ -31,4 +31,4 @@ phases:
       - pwd
 artifacts:
   files:
-    - '**/*'
+    - './service/build/libs/backend-service-minuting-0.0.1.jar'
