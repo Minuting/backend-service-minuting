@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'groovy'
 
 dependencies {
+    implementation project(":http")
     implementation project(":domain")
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
@@ -25,4 +26,7 @@ dependencies {
     testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
     testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
     testRuntimeOnly 'org.codehaus.groovy:groovy:3.0.8'
+
+    testImplementation 'io.mockk:mockk:1.13.2'
+//    testImplementation "org.mockito.kotlin:mockito-kotlin:3.1.0"
 }

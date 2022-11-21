@@ -5,6 +5,7 @@ bootJar.enabled = false
 jar.enabled = true
 
 dependencies {
+    implementation project(":http")
     implementation "javax.validation:validation-api"
     implementation "org.springframework:spring-webmvc"
 }
