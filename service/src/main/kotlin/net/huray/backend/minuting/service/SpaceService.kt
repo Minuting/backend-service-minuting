@@ -1,11 +1,17 @@
 package net.huray.backend.minuting.service
 
+import net.huray.backend.http.exception.ForbiddenException
+import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.entity.MemberEntity
+import net.huray.backend.minuting.entity.PermissionEntity
+import net.huray.backend.minuting.entity.SpaceEntity
+import net.huray.backend.minuting.enums.MemberType
 import net.huray.backend.minuting.enums.SpacePermissionType
 import net.huray.backend.minuting.service.component.MinutesComponent
 import net.huray.backend.minuting.service.component.SpaceComponent
 import net.huray.backend.minuting.service.component.UserComponent
+import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -17,52 +23,101 @@ class SpaceService(
     private val minutesComponent: MinutesComponent
 ) {
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
-            .orElseThrow()
-            .let { spaceEntity ->
-                    var type = if (spaceEntity.ownerId.equals(uid)) {
-                        SpacePermissionType.OWNER
-                    } else {
-                        var permission = spaceComponent.getPermissionBySpaceAndMember(spaceEntity, MemberEntity(uid));
-                        if (permission.isPresent) {
-                            permission.get().type
-                        } else {
-                            if (minutesComponent.listAttendeeMemberAndSpace(MemberEntity(uid), spaceEntity).isEmpty())
-                                SpacePermissionType.GUEST
-                            else
-                                throw Error()
-                        }
-                    }
-                    SpaceDto.SpaceDetail(
-                            spaceEntity.id,
-                            spaceEntity.name,
-                            spaceEntity.icon,
-                            spaceEntity.isPublic,
-
-                    ).also {
-                        it.spacePermissionType = type as SpacePermissionType
-                    }
+        .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
+        .let { spaceEntity ->
+            val type = if (spaceEntity.ownerId == uid) {
+                SpacePermissionType.OWNER
+            } else {
+                val permission =
+                    spaceComponent.getPermissionBySpaceAndMember(spaceEntity, MemberEntity(uid))
+                if (permission.isPresent) {
+                    permission.get().type
+                } else {
+                    if (minutesComponent.listAttendeeMemberAndSpace(MemberEntity(uid), spaceEntity)
+                            .isEmpty()
+                    )
+                        SpacePermissionType.GUEST
+                    else
+                        throw Error()
                 }
+            }
+            SpaceDto.SpaceDetail(
+                spaceEntity.id,
+                spaceEntity.name,
+                spaceEntity.description,
+                spaceEntity.icon,
+                spaceEntity.isPublic,
+                type as SpacePermissionType
+            )
+        }
+
     fun listPublic(uid: UUID) = userComponent.get(uid)
-        .let { memberEntity ->
-            spaceComponent.listPermissionByMember(memberEntity)
+        .let { it ->
+            spaceComponent.listPermissionByMember(it)
                 .map { it.space }
-                .filter { it.isPublic }
+                .filter { it!!.isPublic }
         }.let { spaceEntityList ->
             spaceComponent.listPublic()
                 .map { publicSpace ->
                     SpaceDto.SpacePublic(
                         publicSpace.id,
                         publicSpace.name,
+                        publicSpace.description,
                         publicSpace.icon,
                         publicSpace.isPublic
                     ).also {
-                        it.isJoined = spaceEntityList.any { space -> space.id == publicSpace.id }
+                        it.isJoined = spaceEntityList.any { space -> space!!.id == publicSpace.id }
                     }
                 }
         }
 
+    @Transactional
+    fun create(uid: UUID, req: SpaceDto.CreateReq) =
+        spaceComponent.save(SpaceEntity(req.name, req.description, req.icon, uid, req.isPublic))
+            .let { spaceEntity ->
+                spaceComponent.savePermissionAll(req.permissions.map {
+                    PermissionEntity(it.memberId, it.type, spaceEntity.id)
+                }.toMutableList())
+                SpaceDto.SpaceSimple(
+                    spaceEntity.id,
+                    spaceEntity.name,
+                    spaceEntity.description,
+                    spaceEntity.icon,
+                    spaceEntity.isPublic,
+                )
+            }
 
-//    @Transactional
-//    fun createSpace() = spaceComponent.save(null);
 
+    @Transactional
+    fun update(uid: UUID, id: Long, req: SpaceDto.UpdateReq) =
+        spaceComponent.get(id)
+            .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
+            .let { spaceEntity ->
+                spaceEntity.updateSpace(
+                    req.name,
+                    req.description,
+                    req.icon,
+                    req.isPublic,
+                    req.permissions.map {
+                        PermissionEntity(it.memberId, it.type, spaceEntity.id)
+                    }.toMutableList()
+                )
+                SpaceDto.SpaceSimple(
+                    spaceEntity.id,
+                    spaceEntity.name,
+                    spaceEntity.description,
+                    spaceEntity.icon,
+                    spaceEntity.isPublic,
+                )
+            }
+
+    @Transactional
+    fun delete(uid: UUID, id: Long) =
+        spaceComponent.get(id)
+            .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
+            .let { spaceEntity ->
+                if (uid != spaceEntity.ownerId || MemberType.ADMIN == userComponent.get(uid).memberType)
+                    throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
+                spaceComponent.delete(id)
+            }
 }

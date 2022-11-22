@@ -7,7 +7,8 @@ import javax.persistence.*
 
 @Entity(name = "members")
 class MemberEntity(
-        var id: UUID
+        uid: UUID,
+        var name: String = ""
 ) {
 
     @Id
@@ -15,8 +16,6 @@ class MemberEntity(
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @Column(columnDefinition = "BINARY(16)")
     var uid: UUID = UUID.randomUUID()
-
-    lateinit var name: String
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
@@ -27,6 +26,6 @@ class MemberEntity(
     lateinit var team: TeamEntity
 
     @Enumerated(EnumType.STRING)
-    lateinit var memberType: MemberType
+    var memberType: MemberType = MemberType.MEMBER
 
 }

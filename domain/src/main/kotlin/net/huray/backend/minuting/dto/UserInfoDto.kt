@@ -5,10 +5,10 @@ import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.MemberType
 import springfox.documentation.annotations.ApiIgnore
 
-object BaseInfoDto {
+object UserInfoDto {
 
     @ApiIgnore
-    open class BaseInfo(
+    open class UserInfo(
             @ApiModelProperty("사용자 이름")
             val name: String,
             @ApiModelProperty("사용자 타입")
@@ -21,14 +21,14 @@ object BaseInfoDto {
             val spaceList: List<SpaceDto.SpaceSimple>
     )
 
-    @ApiModel("댓글 기본 응답 정보")
-    open class BaseInfoSimple(
+    @ApiModel("유저 기본 응답 정보")
+    open class UserInfoSimple(
             name: String,
             memberType: MemberType,
             company: Res.CompanyRes,
             team: Res.TeamRes,
             spaceList: List<SpaceDto.SpaceSimple>
-    ) : BaseInfo(name, memberType, company, team, spaceList)
+    ) : UserInfo(name, memberType, company, team, spaceList)
 
 
 }

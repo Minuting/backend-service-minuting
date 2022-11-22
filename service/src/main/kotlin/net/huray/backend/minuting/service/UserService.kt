@@ -1,6 +1,6 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.minuting.dto.BaseInfoDto
+import net.huray.backend.minuting.dto.UserInfoDto
 import net.huray.backend.minuting.dto.Res
 import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.service.component.SpaceComponent
@@ -16,13 +16,13 @@ class UserService(
 
     fun getBaseInfo(uid: UUID) = userComponent.get(uid)
         .run {
-            BaseInfoDto.BaseInfoSimple(
+            UserInfoDto.UserInfoSimple(
                 name, memberType,
                 Res.CompanyRes(company.id, company.name, company.ceo, company.telNumber, company.address),
                 Res.TeamRes(team.id, team.name),
                 spaceComponent.listPermissionByMember(this).map {
                     val space = it.space
-                    SpaceDto.SpaceSimple(space.id, space.name, space.icon, space.isPublic)
+                    SpaceDto.SpaceSimple(space!!.id, space.name, space.description, space.icon, space.isPublic)
                 }
             )
         }

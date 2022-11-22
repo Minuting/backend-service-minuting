@@ -17,7 +17,7 @@ interface SpaceContract {
 
     @ApiOperation("스페이스 생성")
     @PostMapping(SPACES, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(req: MinutesDto.CreateReq): SingleResult<SpaceDto.SpaceSimple>
+    fun create(@RequestBody req: SpaceDto.CreateReq): SingleResult<SpaceDto.SpaceSimple>
 
     @ApiOperation("스페이스 상세 조회")
     @GetMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -31,8 +31,8 @@ interface SpaceContract {
     @PutMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable id: Long,
-        req: MinutesDto.UpdateReq
-    )
+        @RequestBody req: SpaceDto.UpdateReq
+    ): SingleResult<SpaceDto.SpaceSimple>
 
     @ApiOperation("스페이스 삭제")
     @DeleteMapping("${SPACES}/{id}")
