@@ -4,6 +4,7 @@ version = '0.0.1'
 buildscript {
     ext {
         openfeignVersion = '3.1.5'
+        kotestVersion = '5.5.4'
     }
 }
 
@@ -18,15 +19,14 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${openfeignVersion}"
     implementation 'org.springframework.data:spring-data-envers'
     implementation 'javax.validation:validation-api'
-    implementation 'com.h2database:h2'
-    
+
     runtimeOnly 'mysql:mysql-connector-java'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.spockframework:spock-core:2.0-groovy-3.0'
-    testImplementation 'org.spockframework:spock-spring:2.0-groovy-3.0'
-    testRuntimeOnly 'org.codehaus.groovy:groovy:3.0.8'
+    testImplementation "io.kotest:kotest-runner-junit5:${kotestVersion}"
+    testImplementation "io.kotest:kotest-assertions-core:${kotestVersion}"
+
+    testImplementation 'com.h2database:h2'
 
     testImplementation 'io.mockk:mockk:1.13.2'
-//    testImplementation "org.mockito.kotlin:mockito-kotlin:3.1.0"
 }

@@ -62,8 +62,6 @@ subprojects {
         implementation 'io.projectreactor.kotlin:reactor-kotlin-extensions'
         implementation 'com.fasterxml.jackson.module:jackson-module-kotlin'
 
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
     }
 
