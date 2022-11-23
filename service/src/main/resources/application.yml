@@ -8,8 +8,8 @@ spring:
   datasource:
     url: ${DB_URL}
     driver-class-name: com.mysql.jdbc.Driver
-    username: '${DB_USER}'
-    password: '${DB_PASS}'
+    username: ${DB_USER}
+    password: ${DB_PASS}
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -20,8 +20,15 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
 feign:
   retry:
     period: 1000
     max-period: 10000
     max-attempts: 5
+
+oauth:
+  google:
+    client-id: ${GOOGLE_CLIENT_ID}
+    client-secret: ${GOOGLE_CLIENT_SECRET}
+    redirect-url: ${GOOGLE_REDIRECT_URL}
