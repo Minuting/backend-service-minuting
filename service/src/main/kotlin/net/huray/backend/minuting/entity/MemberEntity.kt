@@ -6,7 +6,10 @@ import java.util.*
 import javax.persistence.*
 
 @Entity(name = "members")
-class MemberEntity() {
+class MemberEntity(
+        uid: UUID,
+        var name: String = ""
+) {
 
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -14,17 +17,15 @@ class MemberEntity() {
     @Column(columnDefinition = "BINARY(16)")
     var uid: UUID = UUID.randomUUID()
 
-    lateinit var name: String
-
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     lateinit var company: CompanyEntity
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
     lateinit var team: TeamEntity
 
     @Enumerated(EnumType.STRING)
-    lateinit var memberType: MemberType
+    var memberType: MemberType = MemberType.MEMBER
 
 }

@@ -9,12 +9,13 @@ class TeamEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
     lateinit var company: CompanyEntity
 
-    lateinit var name: String
+    var name: String = ""
 
-    var pId: Long = 0L
+    @Column( nullable = true )
+    var pId: Long? = null
 
 }
