@@ -31,7 +31,7 @@ class MinutesEntity(
 
     fun addComment(comment: CommentEntity) {
         this.comments.add(comment)
-        comment.minutes = this
+        comment.updateMinutes(this)
     }
 
 }

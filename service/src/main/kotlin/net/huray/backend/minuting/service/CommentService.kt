@@ -15,11 +15,12 @@ class CommentService(
     private val commentRepository: CommentRepository
 ) {
 
+    @Transactional
     fun add(minutesId: Long, req: CommentDto.CreateReq) =
         minutesRepository.findById(minutesId)
             .orElseThrow { throw NotFoundException(ErrorMessages.MINUTES_NOT_FOUND, minutesId) }
             .run {
-                CommentEntity(req.contents)
+                CommentEntity(req.contents, this)
                     .also {
                         addComment(it)
                         commentRepository.save(it)
@@ -53,6 +54,16 @@ class CommentService(
                 commentRepository.findById(commentId)
                     .orElseThrow { throw NotFoundException(ErrorMessages.COMMENT_NOT_FOUND, commentId) }
                     .apply { updateComment(req) }
+            }
+    }
+
+    fun hardDelete(minutesId: Long, commentId: Long) {
+        minutesRepository.findById(minutesId)
+            .orElseThrow { throw NotFoundException(ErrorMessages.MINUTES_NOT_FOUND, minutesId) }
+            .also {
+                commentRepository.findById(commentId)
+                    .orElseThrow { throw NotFoundException(ErrorMessages.COMMENT_NOT_FOUND, commentId) }
+                    .also { commentRepository.delete(it) }
             }
     }
 

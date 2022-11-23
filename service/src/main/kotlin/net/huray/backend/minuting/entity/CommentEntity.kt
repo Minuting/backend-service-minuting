@@ -6,17 +6,26 @@ import javax.persistence.*
 
 @Entity(name = "comments")
 class CommentEntity(
-    var contents: String
+    contents: String,
+    minutes: MinutesEntity
 ) : BaseDateTimeEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    val id: Long = 0L
+    var id: Long = 0L
+
+    var contents: String = contents
+        protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "minutes_id")
-    lateinit var minutes: MinutesEntity
+    var minutes: MinutesEntity = minutes
+        protected set
+
+    fun updateMinutes(minutes: MinutesEntity) {
+        this.minutes = minutes
+    }
 
     fun updateComment(data: CommentDto.UpdateReq) {
         this.contents = data.contents

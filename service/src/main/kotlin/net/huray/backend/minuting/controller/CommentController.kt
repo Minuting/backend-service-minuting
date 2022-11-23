@@ -29,7 +29,9 @@ class CommentController(
     }
 
     override fun delete(minutesId: Long, commentId: Long): DoneResult {
-        TODO("Not yet implemented")
+        commentService.hardDelete(minutesId, commentId)
+
+        return DoneResult()
     }
 
 }
