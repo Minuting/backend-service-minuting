@@ -24,36 +24,16 @@ class SpaceService(
 ) {
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
         .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
-        .let { spaceEntity ->
-            val type = if (spaceEntity.ownerId == uid) {
-                SpacePermissionType.OWNER
-            } else {
-                val permission =
-                    spaceComponent.getPermissionBySpaceAndMember(spaceEntity, MemberEntity(uid))
-                if (permission.isPresent) {
-                    permission.get().type
-                } else {
-                    if (minutesComponent.listAttendeeMemberAndSpace(MemberEntity(uid), spaceEntity)
-                            .isEmpty()
-                    )
-                        SpacePermissionType.GUEST
-                    else
-                        throw Error()
-                }
-            }
-            SpaceDto.SpaceDetail(
-                spaceEntity.id,
-                spaceEntity.name,
-                spaceEntity.description,
-                spaceEntity.icon,
-                spaceEntity.isPublic,
-                type as SpacePermissionType
-            )
+        .run {
+            if (ownerId == uid) SpacePermissionType.OWNER
+            else {
+                spaceComponent.getPermissionBySpaceAndMember(this, MemberEntity(uid))?.type ?: SpacePermissionType.GUEST
+            }.let { SpaceDto.SpaceDetail(id, name, description, icon, isPublic, it as SpacePermissionType) }
         }
 
     fun listPublic(uid: UUID) = userComponent.get(uid)
-        .let { it ->
-            spaceComponent.listPermissionByMember(it)
+        .let { memberEntity ->
+            spaceComponent.listPermissionByMember(memberEntity)
                 .map { it.space }
                 .filter { it!!.isPublic }
         }.let { spaceEntityList ->

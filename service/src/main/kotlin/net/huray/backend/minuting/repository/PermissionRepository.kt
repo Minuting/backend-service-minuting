@@ -12,5 +12,5 @@ import java.util.*
 interface PermissionRepository : JpaRepository<PermissionEntity, Long> {
 
     fun findByMember(member: MemberEntity): List<PermissionEntity>
-    fun findBySpaceAndMember(space: SpaceEntity,member: MemberEntity): Optional<PermissionEntity>
+    fun findBySpaceAndMember(space: SpaceEntity,member: MemberEntity): PermissionEntity?
 }
