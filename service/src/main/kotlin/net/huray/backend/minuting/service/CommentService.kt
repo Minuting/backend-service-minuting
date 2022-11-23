@@ -7,6 +7,7 @@ import net.huray.backend.minuting.repository.CommentRepository
 import net.huray.backend.minuting.repository.MinutesRepository
 import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
@@ -38,8 +39,21 @@ class CommentService(
         .let {
             commentRepository.findById(commentId)
                 .orElseThrow { throw NotFoundException(ErrorMessages.COMMENT_NOT_FOUND, commentId) }
-                .let { CommentDto.CommentDetail(it.id, it.contents)
-                    .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }}
+                .let {
+                    CommentDto.CommentDetail(it.id, it.contents)
+                        .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }
+                }
         }
+
+    @Transactional
+    fun update(minutesId: Long, commentId: Long, req: CommentDto.UpdateReq) {
+        minutesRepository.findById(minutesId)
+            .orElseThrow { throw NotFoundException(ErrorMessages.MINUTES_NOT_FOUND, minutesId) }
+            .also {
+                commentRepository.findById(commentId)
+                    .orElseThrow { throw NotFoundException(ErrorMessages.COMMENT_NOT_FOUND, commentId) }
+                    .apply { updateComment(req) }
+            }
+    }
 
 }

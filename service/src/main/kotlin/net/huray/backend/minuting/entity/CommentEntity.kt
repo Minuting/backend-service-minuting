@@ -1,5 +1,6 @@
 package net.huray.backend.minuting.entity
 
+import net.huray.backend.minuting.dto.CommentDto
 import net.huray.backend.minuting.entity.common.BaseDateTimeEntity
 import javax.persistence.*
 
@@ -17,4 +18,15 @@ class CommentEntity(
     @JoinColumn(name = "minutes_id")
     lateinit var minutes: MinutesEntity
 
+    fun updateComment(data: CommentDto.UpdateReq) {
+        this.contents = data.contents
+    }
+
 }
+
+/*
+@Embeddable
+data class CommentUpdateData(
+    var contents: String
+)
+ */

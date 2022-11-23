@@ -22,11 +22,13 @@ class CommentController(
     override fun getComment(minutesId: Long, commentId: Long) =
         SingleResult(commentService.getComment(minutesId, commentId))
 
-    override fun update(minutesId: Long, req: CommentDto.UpdateReq): DoneResult {
-        TODO("Not yet implemented")
+    override fun update(minutesId: Long, commentId: Long, req: CommentDto.UpdateReq): DoneResult {
+        commentService.update(minutesId, commentId, req)
+
+        return DoneResult()
     }
 
-    override fun delete(minutesId: Long): DoneResult {
+    override fun delete(minutesId: Long, commentId: Long): DoneResult {
         TODO("Not yet implemented")
     }
 
