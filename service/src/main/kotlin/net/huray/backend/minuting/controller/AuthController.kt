@@ -1,8 +1,10 @@
 package net.huray.backend.minuting.controller
 
 import net.huray.backend.minuting.contract.AuthContract
+import net.huray.backend.minuting.dto.AuthDto
 import net.huray.backend.minuting.service.AuthService
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.ResponseBody
 
 @Controller
 class AuthController(
@@ -10,5 +12,8 @@ class AuthController(
 ): AuthContract {
 
     override fun moveUserGoogleCode(): String = "redirect:${authService.getUserGoogleCode()}"
+
+    @ResponseBody
+    override fun login(code: String): AuthDto.LoginRes = authService.login(code)
 
 }
