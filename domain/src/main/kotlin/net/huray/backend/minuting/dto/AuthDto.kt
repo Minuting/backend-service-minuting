@@ -5,13 +5,25 @@ import io.swagger.annotations.ApiModelProperty
 
 object AuthDto {
 
-    @ApiModel("로그인 토큰 정보")
+    @ApiModel("로그인 토큰 요청 정보")
     class LoginRes(
-        @ApiModelProperty("access token")
+        @ApiModelProperty("Access Token")
         val accessToken: String,
 
-        @ApiModelProperty("refresh token")
+        @ApiModelProperty("Refresh Token")
         val refreshToken: String
+    )
+
+    @ApiModel("토큰 리프레쉬 요청 정보")
+    class TokenRefreshReq(
+        @ApiModelProperty("Refresh Token")
+        val refreshToken: String
+    )
+
+    @ApiModel("토큰 리프레쉬 반환 정보")
+    class TokenRefreshRes(
+        @ApiModelProperty("Access Token")
+        val accessToken: String
     )
 
 }

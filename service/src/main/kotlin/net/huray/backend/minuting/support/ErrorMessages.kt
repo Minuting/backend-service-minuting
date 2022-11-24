@@ -10,4 +10,6 @@ object ErrorMessages {
     val SPACE_NOT_FOUND = "space.notFound" to "Space({0}) not found."
 
     val SPACE_FORBIDDEN = "space.forbidden" to "Space({0}) forbidden."
+
+    val INVALID_TOKEN = "json.web.token" to "Invalid Token({0})"
 }

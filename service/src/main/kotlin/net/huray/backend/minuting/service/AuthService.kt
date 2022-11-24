@@ -1,12 +1,16 @@
 package net.huray.backend.minuting.service
 
+import net.huray.backend.http.exception.InvalidTokenException
 import net.huray.backend.minuting.client.GoogleAuthClient
 import net.huray.backend.minuting.client.GoogleInfoClient
 import net.huray.backend.minuting.dto.AuthDto.LoginRes
+import net.huray.backend.minuting.dto.AuthDto.TokenRefreshReq
+import net.huray.backend.minuting.dto.AuthDto.TokenRefreshRes
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenRequest
 import net.huray.backend.minuting.entity.AccountEntity
 import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
+import net.huray.backend.minuting.support.ErrorMessages
 import net.huray.backend.minuting.support.JwtProvider
 import org.springframework.stereotype.Service
 import java.net.URLEncoder
@@ -34,6 +38,14 @@ class AuthService(
             .run { googleInfoClient.getInfo("Bearer $accessToken") }
             .run { accountRepository.findByEmail(email) ?: accountRepository.save(AccountEntity(email, name)) }
             .run { LoginRes(jwtProvider.generateAccessToken(id), jwtProvider.generateRefreshToken(id)) }
+    }
+
+    fun tokenRefresh(req: TokenRefreshReq): TokenRefreshRes = with(jwtProvider) {
+        req.run { getBody(refreshToken) }
+            .takeIf { isRefresh(it) }
+            ?.let { getId(it) }
+            ?.let { TokenRefreshRes(jwtProvider.generateAccessToken(it)) }
+            ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN, req.refreshToken)
     }
 
 }
