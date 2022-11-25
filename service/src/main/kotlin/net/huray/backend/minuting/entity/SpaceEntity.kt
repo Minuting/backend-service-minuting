@@ -35,20 +35,30 @@ class SpaceEntity(
             field.addAll(value)
         }
 
-    @OneToMany(mappedBy = "space", fetch = FetchType.LAZY)
+    @OneToMany(
+        mappedBy = "space", fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
     var spaceTags: MutableList<SpaceTagEntity> = mutableListOf()
+        set(value) {
+            field.clear()
+            field.addAll(value)
+        }
 
     fun updateSpace(
         name: String,
         description: String,
         icon: String,
         isPublic: Boolean,
+        tags: MutableList<SpaceTagEntity>,
         permissions: MutableList<PermissionEntity>
     ) {
         this.name = name
         this.description = description
         this.icon = icon
         this.isPublic = isPublic
+        this.spaceTags = tags
         this.permissions = permissions
     }
 
