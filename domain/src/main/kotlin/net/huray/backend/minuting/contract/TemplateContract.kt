@@ -19,13 +19,13 @@ interface TemplateContract {
 
     @ApiOperation("템플릿 리스트")
     @GetMapping(TEMPLATE, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun listSimple(req: TemplateDto.ListReq): ListResult<TemplateDto.TemplateSimple>
+    fun listSimple(): ListResult<TemplateDto.TemplateSimple>
 
     @ApiOperation("템플릿 상세 정보")
     @GetMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getDetail(@PathVariable templateId: Long): SingleResult<TemplateDto.TemplateDetail>
 
-    @ApiOperation("템플릿 갱신")
+    @ApiOperation("템플릿 수정")
     @PutMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable templateId: Long,
