@@ -2,11 +2,9 @@ package net.huray.backend.minuting.service
 
 import net.huray.backend.http.exception.ConflictException
 import net.huray.backend.http.exception.ForbiddenException
-import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.dto.SpaceDto
-import net.huray.backend.minuting.entity.MemberEntity
-import net.huray.backend.minuting.entity.PermissionEntity
-import net.huray.backend.minuting.entity.SpaceEntity
+import net.huray.backend.minuting.dto.TagDto
+import net.huray.backend.minuting.entity.*
 import net.huray.backend.minuting.enums.MemberType
 import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType
@@ -28,8 +26,21 @@ class SpaceService(
         .run {
             if (ownerId == uid) SpacePermissionType.OWNER
             else {
-                spaceComponent.getPermissionBySpaceAndMember(this, MemberEntity(uid))?.type ?: SpacePermissionType.GUEST
-            }.let { SpaceDto.SpaceDetail(id, name, description, icon, isPublic, it as SpacePermissionType) }
+                spaceComponent.getPermissionBySpaceAndMember(this, MemberEntity(uid))?.type
+                    ?: SpacePermissionType.GUEST
+            }.let {
+                SpaceDto.SpaceDetail(
+                    id,
+                    name,
+                    description,
+                    icon,
+                    isPublic,
+                    it as SpacePermissionType,
+                    spaceTags.map {
+                        var tag = it.tag
+                        TagDto.TagSimple(tag.id, tag.name, tag.type, tag.color, tag.orderNum)
+                    })
+            }
         }
 
     fun listPublic(uid: UUID) = userComponent.get(uid)
@@ -54,19 +65,33 @@ class SpaceService(
 
     @Transactional
     fun create(uid: UUID, req: SpaceDto.CreateReq) =
-        spaceComponent.save(SpaceEntity(req.name, req.description, req.icon, uid, req.isPublic))
-            .let { spaceEntity ->
-                spaceComponent.savePermissionAll(req.permissions.map {
-                    PermissionEntity(it.memberId, it.type, spaceEntity.id)
+        spaceComponent.save(
+            SpaceEntity(
+                req.name,
+                req.description,
+                req.icon,
+                uid,
+                req.isPublic,
+            )
+        ).let { spaceEntity ->
+            spaceComponent.saveSpaceTagAll(
+                req.tags.map {
+                    SpaceTagEntity(
+                        spaceEntity,
+                        TagEntity(it)
+                    )
                 }.toMutableList())
-                SpaceDto.SpaceSimple(
-                    spaceEntity.id,
-                    spaceEntity.name,
-                    spaceEntity.description,
-                    spaceEntity.icon,
-                    spaceEntity.isPublic,
-                )
-            }
+            spaceComponent.savePermissionAll(req.permissions.map {
+                PermissionEntity(it.memberId, it.type, spaceEntity.id)
+            }.toMutableList())
+            SpaceDto.SpaceSimple(
+                spaceEntity.id,
+                spaceEntity.name,
+                spaceEntity.description,
+                spaceEntity.icon,
+                spaceEntity.isPublic,
+            )
+        }
 
 
     @Transactional
@@ -78,6 +103,7 @@ class SpaceService(
                     req.description,
                     req.icon,
                     req.isPublic,
+                    req.tags,
                     req.permissions.map {
                         PermissionEntity(it.memberId, it.type, spaceEntity.id)
                     }.toMutableList()
@@ -109,6 +135,12 @@ class SpaceService(
                     throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
                 if (spaceEntity.permissions.any { e -> e.memberId == uid })
                     throw ConflictException(ErrorMessages.SPACE_ALREADY_JOINED, id)
-                spaceEntity.permissions.add( PermissionEntity(uid, PermissionType.WRITE, spaceEntity.id))
+                spaceEntity.permissions.add(
+                    PermissionEntity(
+                        uid,
+                        PermissionType.WRITE,
+                        spaceEntity.id
+                    )
+                )
             }
 }

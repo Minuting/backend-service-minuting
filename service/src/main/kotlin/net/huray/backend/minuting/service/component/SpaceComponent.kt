@@ -4,15 +4,18 @@ import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
+import net.huray.backend.minuting.entity.SpaceTagEntity
 import net.huray.backend.minuting.repository.PermissionRepository
 import net.huray.backend.minuting.repository.SpaceRepository
+import net.huray.backend.minuting.repository.SpaceTagRepository
 import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Component
 
 @Component
 class SpaceComponent(
     private val spaceRepository: SpaceRepository,
-    private val permissionRepository: PermissionRepository
+    private val permissionRepository: PermissionRepository,
+    private val spaceTagRepository: SpaceTagRepository
 ) {
 
     fun get(id: Long) =
@@ -31,6 +34,9 @@ class SpaceComponent(
 
     fun savePermissionAll(permissions: List<PermissionEntity>) =
         permissionRepository.saveAll(permissions)
+
+    fun saveSpaceTagAll(spaceTags: List<SpaceTagEntity>) =
+        spaceTagRepository.saveAll(spaceTags)
 
     fun delete(id: Long) =
         spaceRepository.deleteById(id)

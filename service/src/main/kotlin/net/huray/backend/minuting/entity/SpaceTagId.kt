@@ -3,6 +3,6 @@ package net.huray.backend.minuting.entity
 import java.io.Serializable
 
 data class SpaceTagId(
-    private val space: SpaceEntity? = null,
-    private val tag: TagEntity? = null
+    private var space: Long? = null,
+    private var tag: Long? = null
 ) : Serializable

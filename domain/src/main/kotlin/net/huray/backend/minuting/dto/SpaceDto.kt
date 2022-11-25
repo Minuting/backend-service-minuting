@@ -46,7 +46,9 @@ object SpaceDto {
         icon: String,
         isPublic: Boolean,
         @ApiModelProperty("스페이스 참여 권한", required = true)
-        val spacePermissionType: SpacePermissionType = SpacePermissionType.GUEST
+        val spacePermissionType: SpacePermissionType = SpacePermissionType.GUEST,
+        @ApiModelProperty("스페이스 태그 목록", required = true)
+        val tags: List<TagDto.TagSimple> = arrayListOf()
     ) : SpaceBase(id, name, icon, description, isPublic)
 
     @ApiModel("스페이스 등록 요청 정보")
@@ -60,7 +62,9 @@ object SpaceDto {
         @ApiModelProperty("스페이스 공개여부", required = true)
         val isPublic: Boolean,
         @ApiModelProperty("스페이스 멤버 권한 리스트")
-        val permissions: MutableList<PermissionDto.CreateReq> = mutableListOf()
+        val permissions: MutableList<PermissionDto.CreateReq> = mutableListOf(),
+        @ApiModelProperty("스페이스 태그 ID 목록", required = true)
+        val tags: List<Long> = arrayListOf()
     )
 
     @ApiModel("스페이스 수정 요청 정보")
@@ -74,6 +78,8 @@ object SpaceDto {
         @ApiModelProperty("스페이스 공개여부", required = true)
         val isPublic: Boolean,
         @ApiModelProperty("스페이스 멤버 권한 리스트")
-        val permissions: MutableList<PermissionDto.UpdateReq> = mutableListOf()
+        val permissions: MutableList<PermissionDto.UpdateReq> = mutableListOf(),
+        @ApiModelProperty("스페이스 태그 ID 목록", required = true)
+        val tags: List<Long> = arrayListOf()
     )
 }
