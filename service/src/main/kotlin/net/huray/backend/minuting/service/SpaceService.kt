@@ -4,7 +4,9 @@ import net.huray.backend.http.exception.ConflictException
 import net.huray.backend.http.exception.ForbiddenException
 import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.dto.TagDto
-import net.huray.backend.minuting.entity.*
+
+import net.huray.backend.minuting.entity.PermissionEntity
+import net.huray.backend.minuting.entity.SpaceEntity
 import net.huray.backend.minuting.enums.MemberType
 import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType

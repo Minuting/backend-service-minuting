@@ -4,8 +4,15 @@ import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.MemberType
 import springfox.documentation.annotations.ApiIgnore
+import java.util.*
 
 object UserInfoDto {
+
+    @ApiIgnore
+    open class UserInfoBase(
+        val userId: UUID,
+        val name: String
+    )
 
     @ApiIgnore
     open class UserInfo(

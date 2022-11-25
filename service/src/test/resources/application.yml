@@ -24,3 +24,15 @@ feign:
     period: 1000
     max-period: 2000
     max-attempts: 1
+
+oauth:
+  google:
+    client-id: fake-client-id
+    client-secret: fake-client-secret
+    redirect-url: http://www.fake.com
+
+auth:
+  jwt:
+    secret-key: fake-secret-key
+    access-exp: 600000
+    refresh-exp: 600000

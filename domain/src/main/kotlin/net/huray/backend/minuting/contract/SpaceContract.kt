@@ -25,7 +25,7 @@ interface SpaceContract {
     @GetMapping("${SPACES}/public", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listPublic(): ListResult<SpaceDto.SpacePublic>
 
-    @ApiOperation("스페이스 갱신(업데이트)")
+    @ApiOperation("스페이스 수정")
     @PutMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable id: Long,

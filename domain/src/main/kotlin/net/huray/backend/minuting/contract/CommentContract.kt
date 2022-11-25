@@ -33,7 +33,7 @@ interface CommentContract {
         @PathVariable commentId: Long
     ): SingleResult<CommentDto.CommentDetail>
 
-    @ApiOperation("댓글 갱신")
+    @ApiOperation("댓글 수정")
     @PutMapping("${COMMENTS}/{commentId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable minutesId: Long,
