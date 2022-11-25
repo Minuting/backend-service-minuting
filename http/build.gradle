@@ -1,10 +1,8 @@
 project.archivesBaseName = "backend-module-http"
 version = '0.0.1'
 
-bootJar {
-    bootJar.enabled=false
-    jar.enabled = true
-}
+bootJar.enabled = false
+jar.enabled = true
 
 dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-reflect'

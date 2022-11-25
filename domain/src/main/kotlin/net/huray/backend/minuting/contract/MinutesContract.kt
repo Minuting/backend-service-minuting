@@ -24,7 +24,7 @@ interface MinutesContract {
     @GetMapping("${MINUTES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getDetail(@PathVariable id: Long): SingleResult<MinutesDto.MinutesDetail>
 
-    @ApiOperation("회의록 갱신(업데이트)")
+    @ApiOperation("회의록 수정")
     @PutMapping("${MINUTES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable id: Long,

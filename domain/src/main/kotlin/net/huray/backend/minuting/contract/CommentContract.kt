@@ -33,17 +33,19 @@ interface CommentContract {
         @PathVariable commentId: Long
     ): SingleResult<CommentDto.CommentDetail>
 
-    @ApiOperation("댓글 갱신")
-    @PutMapping(COMMENTS, produces = [MediaType.APPLICATION_JSON_VALUE])
+    @ApiOperation("댓글 수정")
+    @PutMapping("${COMMENTS}/{commentId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable minutesId: Long,
+        @PathVariable commentId: Long,
         req: CommentDto.UpdateReq
     ): DoneResult
 
     @ApiOperation("댓글 삭제")
-    @DeleteMapping(COMMENTS, produces = [MediaType.APPLICATION_JSON_VALUE])
+    @DeleteMapping("${COMMENTS}/{commentId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun delete(
-        @PathVariable minutesId: Long
+        @PathVariable minutesId: Long,
+        @PathVariable commentId: Long
     ): DoneResult
 
 }

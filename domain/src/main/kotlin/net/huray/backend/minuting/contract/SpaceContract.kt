@@ -4,10 +4,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
-import net.huray.backend.minuting.contract.Endpoint.MINUTES
 import net.huray.backend.minuting.contract.Endpoint.SPACES
-import net.huray.backend.minuting.dto.MinutesDto
-import net.huray.backend.minuting.dto.Res
 import net.huray.backend.minuting.dto.SpaceDto
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -27,7 +24,7 @@ interface SpaceContract {
     @GetMapping("${SPACES}/public", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listPublic(): ListResult<SpaceDto.SpacePublic>
 
-    @ApiOperation("스페이스 갱신(업데이트)")
+    @ApiOperation("스페이스 수정")
     @PutMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable id: Long,
@@ -37,5 +34,9 @@ interface SpaceContract {
     @ApiOperation("스페이스 삭제")
     @DeleteMapping("${SPACES}/{id}")
     fun delete(@PathVariable id: Long)
+
+    @ApiOperation("스페이스 참가")
+    @PostMapping("${SPACES}/{id}/join")
+    fun join(@PathVariable id: Long)
 
 }

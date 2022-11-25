@@ -43,7 +43,7 @@ object CommentDto {
         var contents: String
     )
 
-    @ApiModel("댓글 갱신 요청 정보")
+    @ApiModel("댓글 수정 요청 정보")
     class UpdateReq(
         @ApiModelProperty("댓글 내용")
         var contents: String
