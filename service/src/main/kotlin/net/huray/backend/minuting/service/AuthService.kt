@@ -12,6 +12,7 @@ import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
 import net.huray.backend.minuting.support.ErrorMessages
 import net.huray.backend.minuting.support.JwtProvider
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.net.URLEncoder
 
@@ -44,8 +45,9 @@ class AuthService(
         req.run { getBody(refreshToken) }
             .takeIf { isRefresh(it) }
             ?.let { getId(it) }
+            ?.takeIf { accountRepository.existsById(it) }
             ?.let { TokenRefreshRes(jwtProvider.generateAccessToken(it)) }
-            ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN, req.refreshToken)
+            ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
     }
 
 }
