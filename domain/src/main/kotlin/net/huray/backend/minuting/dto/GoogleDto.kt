@@ -8,10 +8,10 @@ object GoogleDto {
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
     class GoogleTokenRequest(
         val code: String,
-        val client_id: String,
-        val client_secret: String,
-        val redirect_uri: String,
-        val grant_type: String
+        val clientId: String,
+        val clientSecret: String,
+        val redirectUri: String,
+        val grantType: String
     )
 
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
