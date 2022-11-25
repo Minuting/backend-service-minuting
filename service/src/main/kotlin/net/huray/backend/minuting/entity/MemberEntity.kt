@@ -7,8 +7,7 @@ import javax.persistence.*
 
 @Entity(name = "members")
 class MemberEntity(
-        uid: UUID,
-        var name: String = ""
+    var name: String = ""
 ) {
 
     @Id
