@@ -10,6 +10,7 @@ import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType
 import net.huray.backend.minuting.service.component.MinutesComponent
 import net.huray.backend.minuting.service.component.SpaceComponent
+import net.huray.backend.minuting.service.component.TagComponent
 import net.huray.backend.minuting.service.component.UserComponent
 import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Service
@@ -20,14 +21,14 @@ import java.util.*
 class SpaceService(
     private val userComponent: UserComponent,
     private val spaceComponent: SpaceComponent,
-    private val minutesComponent: MinutesComponent
+    private val minutesComponent: MinutesComponent,
+    private val tagComponent: TagComponent
 ) {
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
         .run {
-            if (ownerId == uid) SpacePermissionType.OWNER
+            if (owner.uid == uid) SpacePermissionType.OWNER
             else {
-                spaceComponent.getPermissionBySpaceAndMember(this, MemberEntity(uid))?.type
-                    ?: SpacePermissionType.GUEST
+                spaceComponent.getPermissionBySpaceAndMember(this, userComponent.get(uid))?.type ?: SpacePermissionType.GUEST
             }.let {
                 SpaceDto.SpaceDetail(
                     id,
@@ -36,6 +37,7 @@ class SpaceService(
                     icon,
                     isPublic,
                     it as SpacePermissionType,
+                    permissions.map { SpaceDto.SpaceMemberBase(it.member.name, it.type) },
                     spaceTags.map {
                         var tag = it.tag
                         TagDto.TagSimple(tag.id, tag.name, tag.type, tag.color, tag.orderNum)
@@ -47,7 +49,7 @@ class SpaceService(
         .let { memberEntity ->
             spaceComponent.listPermissionByMember(memberEntity)
                 .map { it.space }
-                .filter { it!!.isPublic }
+                .filter { it.isPublic }
         }.let { spaceEntityList ->
             spaceComponent.listPublic()
                 .map { publicSpace ->
@@ -58,7 +60,7 @@ class SpaceService(
                         publicSpace.icon,
                         publicSpace.isPublic
                     ).also {
-                        it.isJoined = spaceEntityList.any { space -> space!!.id == publicSpace.id }
+                        it.isJoined = spaceEntityList.any { space -> space.id == publicSpace.id }
                     }
                 }
         }
@@ -70,19 +72,20 @@ class SpaceService(
                 req.name,
                 req.description,
                 req.icon,
-                uid,
+                userComponent.get(uid),
                 req.isPublic,
             )
         ).let { spaceEntity ->
             spaceComponent.saveSpaceTagAll(
-                req.tags.map {
+                req.tagIdList.map {
                     SpaceTagEntity(
                         spaceEntity,
-                        TagEntity(it)
+                        tagComponent.get(it)
                     )
-                }.toMutableList())
+                }.toMutableList()
+            )
             spaceComponent.savePermissionAll(req.permissions.map {
-                PermissionEntity(it.memberId, it.type, spaceEntity.id)
+                PermissionEntity(userComponent.get(it.memberId), it.type, spaceEntity)
             }.toMutableList())
             SpaceDto.SpaceSimple(
                 spaceEntity.id,
@@ -103,14 +106,14 @@ class SpaceService(
                     req.description,
                     req.icon,
                     req.isPublic,
-                    req.tags.map {
+                    req.tagIdList.map {
                         SpaceTagEntity(
                             spaceEntity,
-                            TagEntity(it)
+                            tagComponent.get(it)
                         )
                     }.toMutableList(),
                     req.permissions.map {
-                        PermissionEntity(it.memberId, it.type, spaceEntity.id)
+                        PermissionEntity(userComponent.get(it.memberId), it.type, spaceEntity)
                     }.toMutableList()
                 )
                 SpaceDto.SpaceSimple(
@@ -126,7 +129,7 @@ class SpaceService(
     fun delete(uid: UUID, id: Long) =
         spaceComponent.get(id)
             .let { spaceEntity ->
-                if (uid != spaceEntity.ownerId || MemberType.ADMIN == userComponent.get(uid).memberType)
+                if (uid != spaceEntity.owner.uid || MemberType.ADMIN == userComponent.get(uid).memberType)
                     throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
                 spaceComponent.delete(id)
             }
@@ -138,13 +141,13 @@ class SpaceService(
             .let { spaceEntity ->
                 if (!spaceEntity.isPublic)
                     throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
-                if (spaceEntity.permissions.any { e -> e.memberId == uid })
+                if (spaceEntity.permissions.any { e -> e.member.uid == uid })
                     throw ConflictException(ErrorMessages.SPACE_ALREADY_JOINED, id)
                 spaceEntity.permissions.add(
                     PermissionEntity(
-                        uid,
+                        userComponent.get(uid),
                         PermissionType.WRITE,
-                        spaceEntity.id
+                        spaceEntity
                     )
                 )
             }

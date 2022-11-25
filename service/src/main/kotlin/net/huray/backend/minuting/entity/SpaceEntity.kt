@@ -1,8 +1,6 @@
 package net.huray.backend.minuting.entity
 
 import net.huray.backend.minuting.entity.common.BaseDateTimeEntity
-import org.springframework.transaction.annotation.Transactional
-import java.util.*
 import javax.persistence.*
 
 @Entity(name = "spaces")
@@ -10,8 +8,7 @@ class SpaceEntity(
     var name: String = "",
     var description: String = "",
     var icon: String = "",
-    @Column(name = "owner_id")
-    var ownerId: UUID = UUID.randomUUID(),
+    owner: MemberEntity,
     var isPublic: Boolean = false
 ) : BaseDateTimeEntity() {
 
@@ -20,8 +17,8 @@ class SpaceEntity(
     var id: Long = 0L
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "owner_id", referencedColumnName = "uid", insertable = false, updatable = false)
-    var owner: MemberEntity? = null
+    @JoinColumn(name = "owner_id", referencedColumnName = "uid")
+    var owner: MemberEntity = owner
 
     @OneToMany(
         mappedBy = "space",

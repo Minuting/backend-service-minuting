@@ -4,13 +4,11 @@ import net.huray.backend.minuting.enums.TagType
 import javax.persistence.*
 
 @Entity(name = "tags")
-class TagEntity(
-    id: Long = 0L
-) {
+class TagEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long = id
+    var id: Long = 0L
 
     var name: String = ""
 

@@ -2,6 +2,8 @@ package net.huray.backend.minuting.dto
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import net.huray.backend.minuting.enums.MemberType
+import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType
 
 object SpaceDto {
@@ -47,8 +49,10 @@ object SpaceDto {
         isPublic: Boolean,
         @ApiModelProperty("스페이스 참여 권한", required = true)
         val spacePermissionType: SpacePermissionType = SpacePermissionType.GUEST,
+        @ApiModelProperty("스페이스 멤버 목록", required = true)
+        val memberList: List<SpaceMemberBase> = arrayListOf(),
         @ApiModelProperty("스페이스 태그 목록", required = true)
-        val tags: List<TagDto.TagSimple> = arrayListOf()
+        val tagList: List<TagDto.TagSimple> = arrayListOf()
     ) : SpaceBase(id, name, icon, description, isPublic)
 
     @ApiModel("스페이스 등록 요청 정보")
@@ -64,7 +68,7 @@ object SpaceDto {
         @ApiModelProperty("스페이스 멤버 권한 리스트")
         val permissions: MutableList<PermissionDto.CreateReq> = mutableListOf(),
         @ApiModelProperty("스페이스 태그 ID 목록", required = true)
-        val tags: List<Long> = arrayListOf()
+        val tagIdList: List<Long> = arrayListOf()
     )
 
     @ApiModel("스페이스 수정 요청 정보")
@@ -80,6 +84,15 @@ object SpaceDto {
         @ApiModelProperty("스페이스 멤버 권한 리스트")
         val permissions: MutableList<PermissionDto.UpdateReq> = mutableListOf(),
         @ApiModelProperty("스페이스 태그 ID 목록", required = true)
-        val tags: List<Long> = arrayListOf()
+        val tagIdList: List<Long> = arrayListOf()
     )
+
+
+    class SpaceMemberBase(
+        @ApiModelProperty("멤버 명")
+        val name: String,
+        @ApiModelProperty("스페이스 멤버 권한")
+        val permissionType: PermissionType
+    )
+
 }

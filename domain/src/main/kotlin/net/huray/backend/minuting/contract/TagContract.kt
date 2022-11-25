@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 @Api(tags = ["태그 API"])
 interface TagContract {
     @ApiOperation("타입별 태그 목록 (타입 : SPACE/MINUTES)")
-    @GetMapping("${TAGS}/{tagType}")
-    fun listByType(@PathVariable tagType: TagType): ListResult<TagDto.TagSimple>
+    @GetMapping("${TAGS}/{type}")
+    fun listByType(@PathVariable(name = "type") type: TagType): ListResult<TagDto.TagSimple>
 
 }

@@ -22,7 +22,7 @@ class UserService(
                 Res.TeamRes(team.id, team.name),
                 spaceComponent.listPermissionByMember(this).map {
                     val space = it.space
-                    SpaceDto.SpaceSimple(space!!.id, space.name, space.description, space.icon, space.isPublic)
+                    SpaceDto.SpaceSimple(space.id, space.name, space.description, space.icon, space.isPublic)
                 }
             )
         }

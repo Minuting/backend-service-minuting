@@ -33,5 +33,4 @@ class MinutesEntity(
         this.comments.add(comment)
         comment.updateMinutes(this)
     }
-
 }
