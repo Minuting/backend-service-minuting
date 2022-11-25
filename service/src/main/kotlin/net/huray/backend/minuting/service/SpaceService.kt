@@ -1,5 +1,6 @@
 package net.huray.backend.minuting.service
 
+import net.huray.backend.http.exception.ConflictException
 import net.huray.backend.http.exception.ForbiddenException
 import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.dto.SpaceDto
@@ -7,6 +8,7 @@ import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
 import net.huray.backend.minuting.enums.MemberType
+import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType
 import net.huray.backend.minuting.service.component.MinutesComponent
 import net.huray.backend.minuting.service.component.SpaceComponent
@@ -23,7 +25,6 @@ class SpaceService(
     private val minutesComponent: MinutesComponent
 ) {
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
-        .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
         .run {
             if (ownerId == uid) SpacePermissionType.OWNER
             else {
@@ -71,7 +72,6 @@ class SpaceService(
     @Transactional
     fun update(uid: UUID, id: Long, req: SpaceDto.UpdateReq) =
         spaceComponent.get(id)
-            .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
             .let { spaceEntity ->
                 spaceEntity.updateSpace(
                     req.name,
@@ -94,10 +94,21 @@ class SpaceService(
     @Transactional
     fun delete(uid: UUID, id: Long) =
         spaceComponent.get(id)
-            .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
             .let { spaceEntity ->
                 if (uid != spaceEntity.ownerId || MemberType.ADMIN == userComponent.get(uid).memberType)
                     throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
                 spaceComponent.delete(id)
+            }
+
+
+    @Transactional
+    fun join(uid: UUID, id: Long) =
+        spaceComponent.get(id)
+            .let { spaceEntity ->
+                if (!spaceEntity.isPublic)
+                    throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
+                if (spaceEntity.permissions.any { e -> e.memberId == uid })
+                    throw ConflictException(ErrorMessages.SPACE_ALREADY_JOINED, id)
+                spaceEntity.permissions.add( PermissionEntity(uid, PermissionType.WRITE, spaceEntity.id))
             }
 }
