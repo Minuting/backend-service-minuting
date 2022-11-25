@@ -19,6 +19,8 @@ dependencies {
     implementation "org.springframework.cloud:spring-cloud-starter-openfeign:${openfeignVersion}"
     implementation 'org.springframework.data:spring-data-envers'
     implementation 'javax.validation:validation-api'
+    implementation ("io.jsonwebtoken:jjwt:0.9.1")
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     runtimeOnly 'mysql:mysql-connector-java'
 

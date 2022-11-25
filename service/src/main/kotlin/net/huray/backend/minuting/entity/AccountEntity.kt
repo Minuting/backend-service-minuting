@@ -6,7 +6,10 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "accounts")
-class AccountEntity {
+class AccountEntity(
+    var email: String,
+    var name: String
+) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
