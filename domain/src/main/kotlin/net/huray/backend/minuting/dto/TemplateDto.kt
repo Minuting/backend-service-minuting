@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import springfox.documentation.annotations.ApiIgnore
 import java.time.LocalDateTime
+import java.util.*
 
 object TemplateDto {
 
@@ -13,8 +14,8 @@ object TemplateDto {
         @ApiModelProperty("템플릿 ID")
         var templateId: Long,
 
-        @ApiModelProperty("템플릿 작성자 리스트")
-        var user: List<Any>,
+        @ApiModelProperty("템플릿 작성자")
+        var user: UserInfoDto.UserInfoBase?,
 
         @ApiModelProperty("템플릿 제목")
         var title: String,
@@ -27,7 +28,7 @@ object TemplateDto {
     @ApiModel("템플릿 기본 응답 정보")
     open class TemplateSimple(
         templateId: Long,
-        user: List<Any>,
+        user: UserInfoDto.UserInfoBase?,
         title: String,
         contents: String
     ) : TemplateBase(templateId, user, title, contents) {
@@ -37,7 +38,7 @@ object TemplateDto {
     @ApiModel("템플릿 상세 응답 정보")
     class TemplateDetail(
         templateId: Long,
-        user: List<Any>,
+        user: UserInfoDto.UserInfoBase?,
         title: String,
         contents: String
     ) : TemplateSimple(templateId, user, title, contents) {
@@ -53,7 +54,7 @@ object TemplateDto {
     @ApiModel("템플릿 리스트 요청 정보")
     class ListReq(
         @ApiModelProperty("템플릿 작성자")
-        var user: Any
+        var userId: UUID
     )
 
     @ApiModel("템플릿 등록 요청 정보")
@@ -65,11 +66,11 @@ object TemplateDto {
         var contents: String,
 
         // TODO: User Entity 및 Dto 정의 이후 수정
-        @ApiModelProperty("템플릿 작성자")
-        var user: Any
+        @ApiModelProperty("템플릿 작성자 ID")
+        var userId: UUID
     )
 
-    @ApiModel("템플릿 갱신 요청 정보")
+    @ApiModel("템플릿 수정 요청 정보")
     class UpdateReq(
         @ApiModelProperty("템플릿 제목")
         var title: String,
@@ -78,8 +79,8 @@ object TemplateDto {
         var contents: String,
 
         // TODO: User Entity 및 Dto 정의 이후 수정
-        @ApiModelProperty("템플릿 수정자")
-        var user: Any
+        @ApiModelProperty("템플릿 수정자 ID")
+        var userId: UUID
     )
 
 }
