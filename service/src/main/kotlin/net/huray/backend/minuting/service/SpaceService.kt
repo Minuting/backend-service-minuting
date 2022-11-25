@@ -4,7 +4,6 @@ import net.huray.backend.http.exception.ConflictException
 import net.huray.backend.http.exception.ForbiddenException
 import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.dto.SpaceDto
-import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
 import net.huray.backend.minuting.enums.MemberType
@@ -28,7 +27,8 @@ class SpaceService(
         .run {
             if (ownerId == uid) SpacePermissionType.OWNER
             else {
-                spaceComponent.getPermissionBySpaceAndMember(this, MemberEntity(uid))?.type ?: SpacePermissionType.GUEST
+                spaceComponent.getPermissionBySpaceAndMember(this, userComponent.get(uid))?.type
+                    ?: SpacePermissionType.GUEST
             }.let { SpaceDto.SpaceDetail(id, name, description, icon, isPublic, it as SpacePermissionType) }
         }
 

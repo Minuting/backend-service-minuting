@@ -11,7 +11,7 @@ import javax.persistence.MappedSuperclass
 
 @EntityListeners(AuditingEntityListener::class)
 @MappedSuperclass
-class BaseDateTimeEntity {
+abstract class BaseDateTimeEntity {
 
     @CreatedDate
     @Column(updatable = false)

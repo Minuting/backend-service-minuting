@@ -11,7 +11,6 @@ class MinutesEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "minutes_id")
     var id: Long = 0L
 
     @ManyToOne(fetch = FetchType.LAZY)

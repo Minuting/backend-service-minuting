@@ -7,8 +7,7 @@ import javax.persistence.*
 
 @Entity(name = "members")
 class MemberEntity(
-        uid: UUID,
-        var name: String = ""
+    var name: String = ""
 ) {
 
     @Id
@@ -24,6 +23,20 @@ class MemberEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
     lateinit var team: TeamEntity
+
+    /*
+    @OneToMany(
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.ALL],
+        mappedBy = "writer"
+    )
+    protected val mutableTemplateList: MutableList<TemplateEntity> = mutableListOf()
+    val templateList: List<TemplateEntity> get() = mutableTemplateList.toList()
+
+fun addTemplate(template: TemplateEntity) {
+        mutableTemplateList.add(template)
+    }
+     */
 
     @Enumerated(EnumType.STRING)
     var memberType: MemberType = MemberType.MEMBER
