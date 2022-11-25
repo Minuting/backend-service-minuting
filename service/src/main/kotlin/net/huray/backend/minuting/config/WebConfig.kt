@@ -21,7 +21,7 @@ class WebConfig(
             JwtInterceptor(authenticationFacade, accountRepository, jwtProvider)
         ).addPathPatterns("/**")
             .excludePathPatterns(
-                "${Endpoint.AUTH}/**", "/error"
+                "${Endpoint.AUTH}/**", "/error", "/swagger-resources/**", "/swagger-ui/**", "/v3/api-docs"
             )
     }
 
