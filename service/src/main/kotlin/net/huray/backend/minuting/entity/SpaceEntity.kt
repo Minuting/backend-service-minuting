@@ -51,19 +51,14 @@ class SpaceEntity(
         description: String,
         icon: String,
         isPublic: Boolean,
-        tags: List<Long>,
+        tags: MutableList<SpaceTagEntity>,
         permissions: MutableList<PermissionEntity>
     ) {
         this.name = name
         this.description = description
         this.icon = icon
         this.isPublic = isPublic
-        this.spaceTags = tags.map {
-            SpaceTagEntity(
-                this,
-                TagEntity(it)
-            )
-        }.toMutableList()
+        this.spaceTags = tags
         this.permissions = permissions
     }
 

@@ -3,18 +3,21 @@ package net.huray.backend.minuting.entity
 import javax.persistence.*
 
 @Entity(name = "space_tags")
-@IdClass(SpaceTagId::class)
 class SpaceTagEntity(
     space: SpaceEntity,
     tag: TagEntity
 ) {
-    @Id
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "space_id", insertable = false, updatable = false)
-    var space: SpaceEntity = space
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Long = 0L
+
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "tag_id", insertable = false, updatable = false)
+    @JoinColumn(name = "space_id")
+    var space: SpaceEntity = space
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "tag_id")
     var tag: TagEntity = tag
 }

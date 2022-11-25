@@ -21,4 +21,12 @@ class TagEntity(
 
     var orderNum: Int = 0
 
+
+    @OneToMany(
+        mappedBy = "tag", fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    var spaceTags: MutableList<SpaceTagEntity> = mutableListOf()
+
 }

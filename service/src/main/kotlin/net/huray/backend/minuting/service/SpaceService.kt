@@ -103,7 +103,12 @@ class SpaceService(
                     req.description,
                     req.icon,
                     req.isPublic,
-                    req.tags,
+                    req.tags.map {
+                        SpaceTagEntity(
+                            spaceEntity,
+                            TagEntity(it)
+                        )
+                    }.toMutableList(),
                     req.permissions.map {
                         PermissionEntity(it.memberId, it.type, spaceEntity.id)
                     }.toMutableList()
