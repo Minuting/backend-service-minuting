@@ -1,12 +1,10 @@
 package net.huray.backend.minuting.entity
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import net.huray.backend.minuting.enums.TagType
+import javax.persistence.*
 
 @Entity(name = "tags")
-class TagEntity {
+class TagEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,10 +12,19 @@ class TagEntity {
 
     var name: String = ""
 
-    var type: String = ""
+    @Enumerated(EnumType.STRING)
+    var type: TagType = TagType.MINUTES
 
-    var color: Long = 0L
+    var color: String = ""
 
     var orderNum: Int = 0
+
+
+    @OneToMany(
+        mappedBy = "tag", fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    var spaceTags: MutableList<SpaceTagEntity> = mutableListOf()
 
 }

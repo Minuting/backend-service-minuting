@@ -13,7 +13,8 @@ class MinutesComponent(
     private val minutesRepository: MinutesRepository,
     private val minutesAttendeeRepository: MinutesAttendeeRepository
 ) {
+
     fun listAttendeeMemberAndSpace(member: MemberEntity, space: SpaceEntity) =
-            minutesAttendeeRepository.findByMemberAndMinutes_Space(member, space)
+        minutesAttendeeRepository.findByMemberAndMinutes_Space(member, space)
 
 }
