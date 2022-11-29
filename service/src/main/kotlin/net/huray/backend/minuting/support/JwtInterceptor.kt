@@ -25,5 +25,4 @@ class JwtInterceptor(
             ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
         return super.preHandle(request, response, handler)
     }
-
 }
