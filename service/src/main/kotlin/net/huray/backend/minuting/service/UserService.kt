@@ -16,7 +16,7 @@ class UserService(
 
     fun getBaseInfo(uid: UUID) = userComponent.get(uid)
         .run {
-            UserInfoDto.UserInfoSimple(
+            UserInfoDto.UserInfoDetail(
                 name, memberType,
                 Res.CompanyRes(company.id, company.name, company.ceo, company.telNumber, company.address),
                 Res.TeamRes(team.id, team.name),
@@ -27,4 +27,8 @@ class UserService(
             )
         }
 
+    fun listByName(name: String) = userComponent.searchByName(name)
+        .map {
+            UserInfoDto.UserInfoSimple(it.uid, it.name)
+        }
 }
