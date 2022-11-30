@@ -2,7 +2,6 @@ package net.huray.backend.minuting.service
 
 import net.huray.backend.http.exception.NotFoundException
 import net.huray.backend.minuting.dto.TemplateDto
-import net.huray.backend.minuting.dto.UserInfoDto
 import net.huray.backend.minuting.entity.TemplateEntity
 import net.huray.backend.minuting.repository.TemplateRepository
 import net.huray.backend.minuting.service.component.UserComponent

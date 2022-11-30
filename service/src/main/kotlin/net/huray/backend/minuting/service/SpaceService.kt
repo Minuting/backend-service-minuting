@@ -27,6 +27,7 @@ class SpaceService(
     private val minutesComponent: MinutesComponent,
     private val tagComponent: TagComponent
 ) {
+
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
         .run {
             if (owner.uid == uid) SpacePermissionType.OWNER

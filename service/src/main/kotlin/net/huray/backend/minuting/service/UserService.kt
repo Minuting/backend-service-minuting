@@ -1,8 +1,8 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.minuting.dto.UserInfoDto
 import net.huray.backend.minuting.dto.Res
 import net.huray.backend.minuting.dto.SpaceDto
+import net.huray.backend.minuting.dto.UserInfoDto
 import net.huray.backend.minuting.service.component.SpaceComponent
 import net.huray.backend.minuting.service.component.UserComponent
 import org.springframework.stereotype.Service

@@ -11,8 +11,10 @@ import org.springframework.context.annotation.Configuration
 class FeignConfig(
     private val feignProperties: FeignProperties
 ) {
+
     @Bean
     fun retryer(): Retryer? = with(feignProperties) {
         Retryer.Default(period, maxPeriod, maxAttempts)
     }
+    
 }

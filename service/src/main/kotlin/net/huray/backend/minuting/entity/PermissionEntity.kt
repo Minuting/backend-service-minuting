@@ -10,6 +10,7 @@ class PermissionEntity(
     var type: PermissionType,
     space: SpaceEntity
 ) {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L

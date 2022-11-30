@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service
 class TagService(
     private val tagComponent: TagComponent
 ) {
+
     fun listByType(tagType: TagType) = tagComponent.listByType(tagType)
         .map {
             TagDto.TagSimple(it.id, it.name, it.type, it.color, it.orderNum)

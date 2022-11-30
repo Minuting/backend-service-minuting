@@ -3,11 +3,14 @@ package net.huray.backend.minuting.entity.common
 import org.hibernate.proxy.HibernateProxy
 import org.springframework.data.domain.Persistable
 import java.util.*
-import javax.persistence.*
-import kotlin.jvm.Transient
+import javax.persistence.Id
+import javax.persistence.MappedSuperclass
+import javax.persistence.PostLoad
+import javax.persistence.PostPersist
 
 @MappedSuperclass
 abstract class BaseIdEntity : Persistable<UUID> {
+
     @Id
 //    @Column(columnDefinition = "VARCHAR(36)")
     private val id: UUID = UUID.randomUUID()

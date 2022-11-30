@@ -11,7 +11,7 @@ class JwtInterceptor(
     private val authenticationFacade: AuthenticationFacade,
     private val accountRepository: AccountRepository,
     private val jwtProvider: JwtProvider
-): HandlerInterceptor {
+) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
         request.getHeader("Authorization")

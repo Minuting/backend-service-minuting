@@ -20,10 +20,7 @@ class MinutesController(
 
     override fun getDetail(id: Long) = SingleResult(minutesReadService.getDetailById(id))
 
-    override fun update(
-        id: Long,
-        req: MinutesDto.UpdateReq
-    ) = minutesWriteService.update(id, req)
+    override fun update(id: Long, req: MinutesDto.UpdateReq) = minutesWriteService.update(id, req)
 
     override fun delete(id: Long) = minutesWriteService.hardDelete(id)
 
