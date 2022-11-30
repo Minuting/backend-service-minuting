@@ -4,6 +4,7 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.minuting.dto.UserInfoDto
+import net.huray.backend.minuting.contract.Endpoint.USER
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam
 interface UserContract {
 
     @ApiOperation("유저 이름 검색 Like")
-    @GetMapping("${Endpoint.USER}")
+    @GetMapping(USER)
     fun listByName(@RequestParam(name = "name", required = true) name: String): ListResult<UserInfoDto.UserInfoSimple>
 
 }
