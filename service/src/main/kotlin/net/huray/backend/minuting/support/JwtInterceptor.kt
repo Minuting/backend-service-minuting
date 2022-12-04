@@ -15,7 +15,7 @@ class JwtInterceptor(
 ) : HandlerInterceptor {
 
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        if (HttpMethod.OPTIONS.matches(request.method))
+        if (!HttpMethod.OPTIONS.matches(request.method))
             request.getHeader("Authorization")
                 ?.takeIf { it.startsWith("Bearer ") }
                 ?.let { it.substring(7) }
