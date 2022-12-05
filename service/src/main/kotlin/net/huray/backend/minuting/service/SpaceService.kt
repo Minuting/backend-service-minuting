@@ -15,7 +15,6 @@ import net.huray.backend.minuting.service.component.MinutesComponent
 import net.huray.backend.minuting.service.component.SpaceComponent
 import net.huray.backend.minuting.service.component.TagComponent
 import net.huray.backend.minuting.service.component.UserComponent
-import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import java.util.*
@@ -135,7 +134,7 @@ class SpaceService(
         spaceComponent.get(id)
             .let { spaceEntity ->
                 if (uid != spaceEntity.owner.uid || MemberType.ADMIN == userComponent.get(uid).memberType)
-                    throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
+                    throw ForbiddenException("Forbidden Space (id:$id)")
                 spaceComponent.delete(id)
             }
 
@@ -145,9 +144,9 @@ class SpaceService(
         spaceComponent.get(id)
             .let { spaceEntity ->
                 if (!spaceEntity.isPublic)
-                    throw ForbiddenException(ErrorMessages.SPACE_FORBIDDEN, id)
+                    throw ForbiddenException("Forbidden Space (id:$id)")
                 if (spaceEntity.permissions.any { e -> e.member.uid == uid })
-                    throw ConflictException(ErrorMessages.SPACE_ALREADY_JOINED, id)
+                    throw ConflictException("Conflict Space (id:$id)")
                 spaceEntity.permissions.add(
                     PermissionEntity(
                         userComponent.get(uid),
