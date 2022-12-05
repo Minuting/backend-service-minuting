@@ -22,7 +22,7 @@ class JwtInterceptor(
             ?.let { jwtProvider.getId(it) }
             ?.let { accountRepository.findByIdOrNull(it) }
             ?.apply { authenticationFacade.setInfo(id, email, name) }
-            ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
+            ?: throw InvalidTokenException("Invalid Access Token")
         return super.preHandle(request, response, handler)
     }
 

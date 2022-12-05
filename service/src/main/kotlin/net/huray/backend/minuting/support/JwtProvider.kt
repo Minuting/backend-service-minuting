@@ -34,7 +34,7 @@ class JwtProvider(
         return try {
             Jwts.parser().setSigningKey(jwtProperties.secretKey).parseClaimsJws(token).body
         } catch (e: Exception) {
-            throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
+            throw InvalidTokenException("Invalid Token")
         }
     }
 

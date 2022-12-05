@@ -1,8 +1,6 @@
 package net.huray.backend.http.res
 
-import java.io.Serializable
-
-open class ListResult<T>() : BaseResult(), Serializable {
+open class ListResult<T>() : BaseResult() {
     val list = mutableListOf<T>()
 
     constructor(initList: Iterable<T>? = null) : this() {
