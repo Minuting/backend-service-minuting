@@ -1,6 +1,8 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.http.exception.InvalidTokenException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode
+import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import net.huray.backend.minuting.client.GoogleAuthClient
 import net.huray.backend.minuting.client.GoogleInfoClient
 import net.huray.backend.minuting.dto.AuthDto.LoginRes
@@ -45,7 +47,7 @@ class AuthService(
             ?.let { getId(it) }
             ?.takeIf { accountRepository.existsById(it) }
             ?.let { TokenRefreshRes(jwtProvider.generateAccessToken(it)) }
-            ?: throw InvalidTokenException("Invalid Refresh Token")
+            ?: throw BaseException(INVALID_TOKEN)
     }
 
 }

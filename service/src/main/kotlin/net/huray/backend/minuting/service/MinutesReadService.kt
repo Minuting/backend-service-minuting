@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode
 import net.huray.backend.minuting.dto.MinutesDto
 import net.huray.backend.minuting.repository.MinutesRepository
 import org.springframework.stereotype.Service
@@ -16,7 +17,7 @@ class MinutesReadService(
         .map { MinutesDto.MinutesSimple(it.id, it.title, it.contents) }
 
     fun getDetailById(id: Long) = minutesRepository.findById(id)
-        .orElseThrow { throw NotFoundException("Not Found Minutes (id:$id)") }
+        .orElseThrow { throw BaseException(ErrorCode.MINUTES_NOT_FOUND, id.toString()) }
         .let {
             MinutesDto.MinutesDetail(it.id, it.title, it.contents).apply {
                 this.createdAt = it.createdAt

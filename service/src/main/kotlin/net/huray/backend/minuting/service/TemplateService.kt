@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.TEMPLATE_NOT_FOUND
 import net.huray.backend.minuting.dto.TemplateDto
 import net.huray.backend.minuting.entity.TemplateEntity
 import net.huray.backend.minuting.repository.TemplateRepository
@@ -30,18 +31,18 @@ class TemplateService(
 
     @Transactional(readOnly = true)
     fun get(templateId: Long) = templateRepository.findById(templateId)
-        .orElseThrow { throw NotFoundException("Not Found Template (id:$templateId)") }
+        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
         .toTemplateDetail()
 
     @Transactional
     fun update(templateId: Long, req: TemplateDto.UpdateReq) = templateRepository.findById(templateId)
-        .orElseThrow { throw NotFoundException("Not Found Template (id:$templateId)") }
+        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
         .updateTemplate(req.title, req.contents, userComponent.get(req.userId))
 
     @Transactional
     fun hardDelete(templateId: Long) {
         templateRepository.findById(templateId)
-            .orElseThrow { throw NotFoundException("Not Found Template (id:$templateId)") }
+            .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
             .also { templateRepository.delete(it) }
     }
 

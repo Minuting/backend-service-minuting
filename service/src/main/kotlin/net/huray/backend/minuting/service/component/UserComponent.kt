@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service.component
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.MEMBER_NOT_FOUND
 import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.repository.MemberRepository
 import org.springframework.stereotype.Component
@@ -12,6 +13,6 @@ class UserComponent(
 ) {
 
     fun get(uid: UUID): MemberEntity = memberRepository.findById(uid)
-        .orElseThrow { throw NotFoundException("Not Found Member (id:$uid)") }
+        .orElseThrow { throw BaseException(MEMBER_NOT_FOUND, uid.toString()) }
 
 }

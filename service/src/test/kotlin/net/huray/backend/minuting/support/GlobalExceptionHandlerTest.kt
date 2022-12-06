@@ -7,6 +7,7 @@ import io.kotest.core.spec.style.BehaviorSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.mockk
 import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import org.springframework.http.HttpStatus.*
 
 class GlobalExceptionHandlerTest: BehaviorSpec({
@@ -21,7 +22,7 @@ class GlobalExceptionHandlerTest: BehaviorSpec({
 
             Then("Return Internal Server Error") {
                 http.statusCode.shouldBe(INTERNAL_SERVER_ERROR)
-                http.body!!.error.shouldBe("Internal Server Error")
+                http.body!!.error!!.reason.shouldBe("Internal Server Error")
             }
         }
     }
@@ -34,19 +35,19 @@ class GlobalExceptionHandlerTest: BehaviorSpec({
 
             Then("Return Service Unavailable") {
                 http.statusCode.shouldBe(SERVICE_UNAVAILABLE)
-                http.body!!.error.shouldBe("External Server Error")
+                http.body!!.error!!.reason.shouldBe("External Server Error")
             }
         }
     }
 
     Given("Occur BaseException") {
-        val exception = BaseException(400, "code", "default", null)
+        val exception = BaseException(INVALID_TOKEN)
 
         When("Handle BaseException") {
             val http = handler.handleBaseException(exception)
 
             Then("Return status") {
-                http.statusCode.shouldBe(BAD_REQUEST)
+                http.statusCode.shouldBe(UNAUTHORIZED)
             }
         }
     }

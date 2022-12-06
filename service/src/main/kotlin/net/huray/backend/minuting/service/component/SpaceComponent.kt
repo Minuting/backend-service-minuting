@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service.component
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.SPACE_NOT_FOUND
 import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
@@ -19,7 +20,7 @@ class SpaceComponent(
 
     fun get(id: Long) =
         spaceRepository.findById(id)
-            .orElseThrow { throw NotFoundException("Not Found Space (id:$id)") }
+            .orElseThrow { throw BaseException(SPACE_NOT_FOUND, id.toString()) }
 
     fun listPermissionByMember(member: MemberEntity) =
         permissionRepository.findByMember(member)

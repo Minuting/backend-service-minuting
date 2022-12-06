@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.support
 
-import net.huray.backend.http.exception.InvalidTokenException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import net.huray.backend.minuting.repository.AccountRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.web.servlet.HandlerInterceptor
@@ -22,7 +23,7 @@ class JwtInterceptor(
             ?.let { jwtProvider.getId(it) }
             ?.let { accountRepository.findByIdOrNull(it) }
             ?.apply { authenticationFacade.setInfo(id, email, name) }
-            ?: throw InvalidTokenException("Invalid Access Token")
+            ?: throw BaseException(INVALID_TOKEN)
         return super.preHandle(request, response, handler)
     }
 
