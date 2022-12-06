@@ -13,11 +13,14 @@ class TemplateController(
     private val templateService: TemplateService
 ) : TemplateContract {
 
-    override fun create(req: TemplateDto.CreateReq) = SingleResult(templateService.create(req))
+    override fun create(req: TemplateDto.CreateReq) =
+        SingleResult(templateService.create(req))
 
-    override fun listSimple() = ListResult(templateService.list());
+    override fun listSimple() =
+        ListResult(templateService.list());
 
-    override fun getDetail(templateId: Long) = SingleResult(templateService.get(templateId))
+    override fun getDetail(templateId: Long) =
+        SingleResult(templateService.get(templateId))
 
     override fun update(templateId: Long, req: TemplateDto.UpdateReq): DoneResult {
         templateService.update(templateId, req)
@@ -30,4 +33,5 @@ class TemplateController(
 
         return DoneResult()
     }
+
 }

@@ -3,7 +3,6 @@ package net.huray.backend.minuting.dto
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.PermissionType
-import net.huray.backend.minuting.enums.SpacePermissionType
 import java.util.*
 
 object PermissionDto {
@@ -42,4 +41,5 @@ object PermissionDto {
         @ApiModelProperty("권한 멤버 아이디", required = true)
         val memberId: UUID
     )
+
 }

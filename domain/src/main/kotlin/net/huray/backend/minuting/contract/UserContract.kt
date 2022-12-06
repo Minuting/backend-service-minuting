@@ -3,8 +3,8 @@ package net.huray.backend.minuting.contract
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import net.huray.backend.http.res.ListResult
-import net.huray.backend.minuting.dto.UserInfoDto
 import net.huray.backend.minuting.contract.Endpoint.USER
+import net.huray.backend.minuting.dto.UserInfoDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestParam
 

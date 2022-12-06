@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.TagType
 
 object TagDto {
+
     open class TagBase(
         @ApiModelProperty("태그 ID", required = true)
         var id: Long = 0L,

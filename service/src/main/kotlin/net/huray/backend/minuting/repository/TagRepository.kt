@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 interface TagRepository : JpaRepository<TagEntity, Long> {
 
     fun findByType(tagType: TagType): List<TagEntity>
+    
 }

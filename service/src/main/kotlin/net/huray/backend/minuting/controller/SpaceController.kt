@@ -32,4 +32,5 @@ class SpaceController(
     override fun join(id: Long) {
         SingleResult(spaceService.join(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), id))
     }
+
 }

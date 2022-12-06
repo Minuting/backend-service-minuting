@@ -42,6 +42,7 @@ object TemplateDto {
         title: String,
         contents: String
     ) : TemplateSimple(templateId, user, title, contents) {
+
         @ApiModelProperty("템플릿 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var createdAt: LocalDateTime? = null

@@ -15,7 +15,7 @@ class TeamEntity {
 
     var name: String = ""
 
-    @Column( nullable = true )
+    @Column(nullable = true)
     var pId: Long? = null
 
 }

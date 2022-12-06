@@ -2,7 +2,6 @@ package net.huray.backend.minuting.dto
 
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
-import net.huray.backend.minuting.enums.MemberType
 import net.huray.backend.minuting.enums.PermissionType
 import net.huray.backend.minuting.enums.SpacePermissionType
 
@@ -36,6 +35,7 @@ object SpaceDto {
         icon: String,
         isPublic: Boolean
     ) : SpaceBase(id, name, description, icon, isPublic) {
+
         @ApiModelProperty("스페이스 참가여부", required = true)
         var isJoined: Boolean = false
 

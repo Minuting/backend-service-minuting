@@ -14,4 +14,5 @@ class TagController(
 
     override fun listByType(tagType: TagType): ListResult<TagDto.TagSimple> =
         ListResult(tagService.listByType(tagType))
+    
 }

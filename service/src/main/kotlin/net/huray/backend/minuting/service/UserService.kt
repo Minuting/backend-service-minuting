@@ -32,4 +32,5 @@ class UserService(
         .map {
             UserInfoDto.UserInfoSimple(it.uid, it.name)
         }
+    
 }

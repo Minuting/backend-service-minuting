@@ -6,7 +6,6 @@ import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.Endpoint.SPACES
 import net.huray.backend.minuting.dto.SpaceDto
-import net.huray.backend.minuting.dto.TagDto
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 

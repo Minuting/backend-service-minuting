@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody
 @Controller
 class AuthController(
     private val authService: AuthService
-): AuthContract {
+) : AuthContract {
 
     override fun moveUserGoogleCode(): String = "redirect:${authService.getUserGoogleCode()}"
 

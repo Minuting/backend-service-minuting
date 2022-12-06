@@ -2,11 +2,9 @@ package net.huray.backend.minuting.service.component
 
 import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.SpaceEntity
-import net.huray.backend.minuting.repository.MemberRepository
 import net.huray.backend.minuting.repository.MinutesAttendeeRepository
 import net.huray.backend.minuting.repository.MinutesRepository
 import org.springframework.stereotype.Component
-import java.util.*
 
 @Component
 class MinutesComponent(
