@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.MINUTES_NOT_FOUND
 import net.huray.backend.minuting.dto.CommentDto
 import net.huray.backend.minuting.entity.CommentEntity
 import net.huray.backend.minuting.repository.CommentRepository
@@ -17,7 +18,7 @@ class CommentService(
     @Transactional
     fun add(minutesId: Long, req: CommentDto.CreateReq) =
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
             .run {
                 CommentEntity(req.contents, this)
                     .also {
@@ -28,17 +29,17 @@ class CommentService(
             .let { CommentDto.CommentSimple(it.id, it.contents) }
 
     fun list(minutesId: Long) = minutesRepository.findById(minutesId)
-        .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
         .let { minutesEntity ->
             commentRepository.findAllByMinutes(minutesEntity)
                 .map { CommentDto.CommentSimple(it.id, it.contents) }
         }
 
     fun getComment(minutesId: Long, commentId: Long) = minutesRepository.findById(minutesId)
-        .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
         .let {
             commentRepository.findById(commentId)
-                .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+                .orElseThrow { BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
                 .let {
                     CommentDto.CommentDetail(it.id, it.contents)
                         .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }
@@ -48,20 +49,20 @@ class CommentService(
     @Transactional
     fun update(minutesId: Long, commentId: Long, req: CommentDto.UpdateReq) {
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
             .also {
                 commentRepository.findById(commentId)
-                    .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
                     .apply { updateComment(req) }
             }
     }
 
     fun hardDelete(minutesId: Long, commentId: Long) {
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
             .also {
                 commentRepository.findById(commentId)
-                    .orElseThrow { throw NotFoundException("Not Found Minutes (id:$minutesId)") }
+                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
                     .also { commentRepository.delete(it) }
             }
     }
