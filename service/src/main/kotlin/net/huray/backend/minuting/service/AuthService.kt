@@ -1,7 +1,6 @@
 package net.huray.backend.minuting.service
 
 import net.huray.backend.http.exception.BaseException
-import net.huray.backend.http.exception.code.ErrorCode
 import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import net.huray.backend.minuting.client.GoogleAuthClient
 import net.huray.backend.minuting.client.GoogleInfoClient
@@ -33,7 +32,7 @@ class AuthService(
                 "&redirect_uri=${URLEncoder.encode(redirectUrl, "UTF-8")}"
     }
 
-    fun login(code: String) = with(googleProperties) {
+    fun login(code: String): LoginRes = with(googleProperties) {
         GoogleTokenRequest(code, clientId, clientSecret, redirectUrl, "authorization_code")
             .let { googleAuthClient.getTokenByCode(it) }
             .run { googleInfoClient.getInfo("Bearer $accessToken") }
