@@ -18,7 +18,7 @@ class CommentService(
     @Transactional
     fun add(minutesId: Long, req: CommentDto.CreateReq) =
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
             .run {
                 CommentEntity(req.contents, this)
                     .also {
@@ -29,17 +29,17 @@ class CommentService(
             .let { CommentDto.CommentSimple(it.id, it.contents) }
 
     fun list(minutesId: Long) = minutesRepository.findById(minutesId)
-        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
         .let { minutesEntity ->
             commentRepository.findAllByMinutes(minutesEntity)
                 .map { CommentDto.CommentSimple(it.id, it.contents) }
         }
 
     fun getComment(minutesId: Long, commentId: Long) = minutesRepository.findById(minutesId)
-        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+        .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
         .let {
             commentRepository.findById(commentId)
-                .orElseThrow { BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+                .orElseThrow { BaseException(MINUTES_NOT_FOUND, minutesId) }
                 .let {
                     CommentDto.CommentDetail(it.id, it.contents)
                         .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }
@@ -49,20 +49,20 @@ class CommentService(
     @Transactional
     fun update(minutesId: Long, commentId: Long, req: CommentDto.UpdateReq) {
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
             .also {
                 commentRepository.findById(commentId)
-                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
                     .apply { updateComment(req) }
             }
     }
 
     fun hardDelete(minutesId: Long, commentId: Long) {
         minutesRepository.findById(minutesId)
-            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+            .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
             .also {
                 commentRepository.findById(commentId)
-                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId.toString()) }
+                    .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
                     .also { commentRepository.delete(it) }
             }
     }

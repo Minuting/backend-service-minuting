@@ -133,7 +133,7 @@ class SpaceService(
         spaceComponent.get(id)
             .let { spaceEntity ->
                 if (uid != spaceEntity.owner.uid || MemberType.ADMIN == userComponent.get(uid).memberType)
-                    throw BaseException(SPACE_FORBIDDEN, id.toString())
+                    throw BaseException(SPACE_FORBIDDEN, id)
                 spaceComponent.delete(id)
             }
 
@@ -143,9 +143,9 @@ class SpaceService(
         spaceComponent.get(id)
             .let { spaceEntity ->
                 if (!spaceEntity.isPublic)
-                    throw BaseException(SPACE_FORBIDDEN, id.toString())
+                    throw BaseException(SPACE_FORBIDDEN, id)
                 if (spaceEntity.permissions.any { e -> e.member.uid == uid })
-                    throw BaseException(SPACE_FORBIDDEN, id.toString())
+                    throw BaseException(SPACE_FORBIDDEN, id)
                 spaceEntity.permissions.add(
                     PermissionEntity(
                         userComponent.get(uid),

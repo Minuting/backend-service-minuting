@@ -17,7 +17,7 @@ class MinutesReadService(
         .map { MinutesDto.MinutesSimple(it.id, it.title, it.contents) }
 
     fun getDetailById(id: Long) = minutesRepository.findById(id)
-        .orElseThrow { throw BaseException(ErrorCode.MINUTES_NOT_FOUND, id.toString()) }
+        .orElseThrow { throw BaseException(ErrorCode.MINUTES_NOT_FOUND, id) }
         .let {
             MinutesDto.MinutesDetail(it.id, it.title, it.contents).apply {
                 this.createdAt = it.createdAt

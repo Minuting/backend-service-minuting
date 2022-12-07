@@ -31,18 +31,18 @@ class TemplateService(
 
     @Transactional(readOnly = true)
     fun get(templateId: Long) = templateRepository.findById(templateId)
-        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
+        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
         .toTemplateDetail()
 
     @Transactional
     fun update(templateId: Long, req: TemplateDto.UpdateReq) = templateRepository.findById(templateId)
-        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
+        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
         .updateTemplate(req.title, req.contents, userComponent.get(req.userId))
 
     @Transactional
     fun hardDelete(templateId: Long) {
         templateRepository.findById(templateId)
-            .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId.toString()) }
+            .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
             .also { templateRepository.delete(it) }
     }
 

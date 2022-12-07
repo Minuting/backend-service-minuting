@@ -20,7 +20,7 @@ class SpaceComponent(
 
     fun get(id: Long) =
         spaceRepository.findById(id)
-            .orElseThrow { throw BaseException(SPACE_NOT_FOUND, id.toString()) }
+            .orElseThrow { throw BaseException(SPACE_NOT_FOUND, id) }
 
     fun listPermissionByMember(member: MemberEntity) =
         permissionRepository.findByMember(member)

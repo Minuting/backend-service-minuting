@@ -12,7 +12,7 @@ class TagComponent(
 ) {
 
     fun get(id: Long) =
-        tagRepository.findById(id).orElseThrow { throw BaseException(TAG_NOT_FOUND, id.toString()) }
+        tagRepository.findById(id).orElseThrow { throw BaseException(TAG_NOT_FOUND, id) }
 
     fun listByType(tagType: TagType) =
         tagRepository.findByType(tagType)
