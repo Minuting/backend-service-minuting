@@ -7,5 +7,6 @@ object Endpoint {
     const val MINUTES = "/minutes"
     const val COMMENTS = "/minutes/{minutesId}/comments"
     const val TAGS = "/tags"
+    const val COMPANY = "/company"
     const val TEMPLATE = "/templates"
 }

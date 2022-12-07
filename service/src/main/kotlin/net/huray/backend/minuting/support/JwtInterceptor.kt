@@ -5,6 +5,7 @@ import net.huray.backend.minuting.repository.AccountRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpMethod
 import org.springframework.web.servlet.HandlerInterceptor
+import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -23,7 +24,7 @@ class JwtInterceptor(
                 ?.takeIf { jwtProvider.isAccess(it) }
                 ?.let { jwtProvider.getId(it) }
                 ?.let { accountRepository.findByIdOrNull(it) }
-                ?.apply { authenticationFacade.setInfo(id, email, name) }
+                ?.apply { authenticationFacade.setInfo(id, UUID.randomUUID(), email, name) }
                 ?: throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
         return super.preHandle(request, response, handler)
     }
