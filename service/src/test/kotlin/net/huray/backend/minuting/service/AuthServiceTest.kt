@@ -55,9 +55,27 @@ class AuthServiceTest: BehaviorSpec({
             every { clientSecret } returns "clientSecret"
             every { redirectUrl } returns "redirectUrl"
         }
-        every { googleAuthClient.getTokenByCode(any()) } returns GoogleTokenResponse("accessToken", "expiresIn", "tokenIn", "scope", "refreshToken")
-        every { googleInfoClient.getInfo("Bearer accessToken") } returns GoogleInfoResponse("sub", "name", "givenName", "familyName", "picture", "email", "emailVerified", "locale")
-        every { accountRepository.findByEmail("email") } returns AccountEntity("email", "name")
+        every { googleAuthClient.getTokenByCode(any()) } returns GoogleTokenResponse(
+            "accessToken",
+            "expiresIn",
+            "tokenIn",
+            "scope",
+            "refreshToken"
+        )
+        every { googleInfoClient.getInfo("Bearer accessToken") } returns GoogleInfoResponse(
+            "sub",
+            "name",
+            "givenName",
+            "familyName",
+            "picture",
+            "email",
+            "emailVerified",
+            "locale"
+        )
+        every { accountRepository.findByEmail("email") } returns AccountEntity(
+            "email",
+            "name"
+        )
         with(jwtProvider) {
             every { generateAccessToken(0L) } returns "accessToken"
             every { generateRefreshToken(0L) } returns "refreshToken"
