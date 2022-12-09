@@ -93,7 +93,7 @@ class AuthServiceTest: BehaviorSpec({
         }
     }
 
-    Given("Token type is refresh And User is exists") {
+    Given("Token type is refresh") {
         val request = TokenRefreshReq("refreshToken")
         with(jwtProvider) {
             val body = DefaultClaims()
@@ -102,26 +102,18 @@ class AuthServiceTest: BehaviorSpec({
             every { getId(body) } returns 0L
             every { generateAccessToken(0L) } returns "accessToken"
         }
-        every { accountRepository.existsById(0L) } returns true
 
-        When("Token refresh") {
+        When("Token refresh with account") {
+            every { accountRepository.existsById(0L) } returns true
             val response = service.tokenRefresh(request)
 
             Then("Token type is access") {
                 response.accessToken.shouldBe("accessToken")
             }
         }
-    }
 
-    Given("Token type is access") {
-        val request = TokenRefreshReq("refreshToken")
-        with(jwtProvider) {
-            val body = DefaultClaims()
-            every { getBody("refreshToken") } returns body
-            every { isRefresh(body) } returns false
-        }
-
-        When("Token refresh") {
+        When("Token refresh without account") {
+            every { accountRepository.existsById(0L) } returns false
             val exception = shouldThrow<BaseException> {
                 service.tokenRefresh(request)
             }
@@ -135,15 +127,13 @@ class AuthServiceTest: BehaviorSpec({
         }
     }
 
-    Given("Token type is refresh But User not exists") {
+    Given("Token type is access") {
         val request = TokenRefreshReq("refreshToken")
         with(jwtProvider) {
             val body = DefaultClaims()
             every { getBody("refreshToken") } returns body
-            every { isRefresh(body) } returns true
-            every { getId(body) } returns 0L
+            every { isRefresh(body) } returns false
         }
-        every { accountRepository.existsById(0L) } returns false
 
         When("Token refresh") {
             val exception = shouldThrow<BaseException> {
