@@ -1,5 +1,7 @@
 package net.huray.backend.minuting.support
 
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import org.springframework.stereotype.Component
 import org.springframework.web.context.annotation.RequestScope
 import java.util.*
@@ -8,16 +10,23 @@ import java.util.*
 @RequestScope
 class AuthenticationFacade {
 
-    var id: Long? = null
-    var uid: UUID? = null
-    var email: String? = null
-    var name: String? = null
+    var id: Long = -1L
+        get() = if (flag) id else throw BaseException(INVALID_TOKEN)
+    var uid: UUID = UUID.randomUUID()
+        get() = if (flag) uid else throw BaseException(INVALID_TOKEN)
+    var email: String = ""
+        get() = if (flag) email else throw BaseException(INVALID_TOKEN)
+    var name: String = ""
+        get() = if (flag) name else throw BaseException(INVALID_TOKEN)
+
+    private var flag: Boolean = false
 
     fun setInfo(id: Long, uid: UUID, email: String, name: String) {
         this.id = id
-        this.uid = UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470")
+        this.uid = uid
         this.email = email
         this.name = name
+        this.flag = true
     }
 
 }

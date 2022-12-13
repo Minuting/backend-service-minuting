@@ -5,31 +5,33 @@ import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.SpaceContract
 import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.service.SpaceService
+import net.huray.backend.minuting.support.AuthenticationFacade
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
 @RestController
 class SpaceController(
-    private val spaceService: SpaceService
+    private val spaceService: SpaceService,
+    private val authenticationFacade: AuthenticationFacade
 ) : SpaceContract {
 
     override fun create(req: SpaceDto.CreateReq): SingleResult<SpaceDto.SpaceSimple> =
-        SingleResult(spaceService.create(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), req))
+        SingleResult(spaceService.create(authenticationFacade.uid, req))
 
     override fun get(id: Long): SingleResult<SpaceDto.SpaceDetail> =
-        SingleResult(spaceService.get(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), id))
+        SingleResult(spaceService.get(authenticationFacade.uid, id))
 
     override fun listPublic(): ListResult<SpaceDto.SpacePublic> =
-        ListResult(spaceService.listPublic(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470")))
+        ListResult(spaceService.listPublic(authenticationFacade.uid))
 
     override fun update(id: Long, req: SpaceDto.UpdateReq) =
-        SingleResult(spaceService.update(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), id, req))
+        SingleResult(spaceService.update(authenticationFacade.uid, id, req))
 
     override fun delete(id: Long) {
-        spaceService.delete(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), id);
+        spaceService.delete(authenticationFacade.uid, id);
     }
 
     override fun join(id: Long) {
-        SingleResult(spaceService.join(UUID.fromString("55a03586-5f14-11ed-8e54-6cd5e80d8470"), id))
+        SingleResult(spaceService.join(authenticationFacade.uid, id))
     }
 }

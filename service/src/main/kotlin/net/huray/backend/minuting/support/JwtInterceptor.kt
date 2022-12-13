@@ -25,7 +25,7 @@ class JwtInterceptor(
                 ?.takeIf { jwtProvider.isAccess(it) }
                 ?.let { jwtProvider.getId(it) }
                 ?.let { accountRepository.findByIdOrNull(it) }
-                ?.apply { authenticationFacade.setInfo(id, UUID.randomUUID(), email, name) }
+                ?.apply { authenticationFacade.setInfo(id, memberEntity.uid, email, memberEntity.name) }
                 ?: throw BaseException(INVALID_TOKEN)
         return super.preHandle(request, response, handler)
     }
