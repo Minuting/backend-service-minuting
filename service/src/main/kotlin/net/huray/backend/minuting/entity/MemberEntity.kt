@@ -24,6 +24,9 @@ class MemberEntity(
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
     lateinit var team: TeamEntity
 
+    @OneToOne(mappedBy = "memberEntity")
+    lateinit var accountEntity: AccountEntity
+
     /*
     @OneToMany(
         fetch = FetchType.LAZY,
