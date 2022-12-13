@@ -14,8 +14,10 @@ import net.huray.backend.minuting.dto.AuthDto.TokenRefreshReq
 import net.huray.backend.minuting.dto.GoogleDto.GoogleInfoResponse
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenResponse
 import net.huray.backend.minuting.entity.AccountEntity
+import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
+import net.huray.backend.minuting.repository.MemberRepository
 import net.huray.backend.minuting.support.JwtProvider
 
 class AuthServiceTest: BehaviorSpec({
@@ -23,10 +25,11 @@ class AuthServiceTest: BehaviorSpec({
     val googleAuthClient: GoogleAuthClient = mockk()
     val googleInfoClient: GoogleInfoClient = mockk()
     val accountRepository: AccountRepository = mockk()
+    val memberRepository: MemberRepository = mockk()
     val jwtProvider: JwtProvider = mockk()
     val googleProperties: GoogleProperties = mockk()
 
-    val service = AuthService(googleAuthClient, googleInfoClient, accountRepository, jwtProvider, googleProperties)
+    val service = AuthService(googleAuthClient, googleInfoClient, accountRepository, memberRepository, jwtProvider, googleProperties)
 
     Given("GoogleProperties clientId is ASDF and redirectUrl is FDSA") {
         with(googleProperties) {
@@ -74,7 +77,7 @@ class AuthServiceTest: BehaviorSpec({
         )
         every { accountRepository.findByEmail("email") } returns AccountEntity(
             "email",
-            "name"
+            MemberEntity("name")
         )
         with(jwtProvider) {
             every { generateAccessToken(0L) } returns "accessToken"
