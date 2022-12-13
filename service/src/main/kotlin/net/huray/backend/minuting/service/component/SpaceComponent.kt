@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service.component
 
-import net.huray.backend.http.exception.NotFoundException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.SPACE_NOT_FOUND
 import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
@@ -8,7 +9,6 @@ import net.huray.backend.minuting.entity.SpaceTagEntity
 import net.huray.backend.minuting.repository.PermissionRepository
 import net.huray.backend.minuting.repository.SpaceRepository
 import net.huray.backend.minuting.repository.SpaceTagRepository
-import net.huray.backend.minuting.support.ErrorMessages
 import org.springframework.stereotype.Component
 
 @Component
@@ -20,7 +20,7 @@ class SpaceComponent(
 
     fun get(id: Long) =
         spaceRepository.findById(id)
-            .orElseThrow { throw NotFoundException(ErrorMessages.SPACE_NOT_FOUND, id) }
+            .orElseThrow { throw BaseException(SPACE_NOT_FOUND, id) }
 
     fun listPermissionByMember(member: MemberEntity) =
         permissionRepository.findByMember(member)

@@ -13,7 +13,7 @@ class FeignConfig(
 ) {
 
     @Bean
-    fun retryer(): Retryer? = with(feignProperties) {
+    fun retryer(): Retryer = with(feignProperties) {
         Retryer.Default(period, maxPeriod, maxAttempts)
     }
     

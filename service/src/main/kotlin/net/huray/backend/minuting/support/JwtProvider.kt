@@ -3,7 +3,8 @@ package net.huray.backend.minuting.support
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm.HS512
-import net.huray.backend.http.exception.InvalidTokenException
+import net.huray.backend.http.exception.BaseException
+import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import net.huray.backend.minuting.properties.JwtProperties
 import net.huray.backend.minuting.support.JwtProvider.TokenType.ACCESS
 import net.huray.backend.minuting.support.JwtProvider.TokenType.REFRESH
@@ -34,7 +35,7 @@ class JwtProvider(
         return try {
             Jwts.parser().setSigningKey(jwtProperties.secretKey).parseClaimsJws(token).body
         } catch (e: Exception) {
-            throw InvalidTokenException(ErrorMessages.INVALID_TOKEN)
+            throw BaseException(INVALID_TOKEN, token)
         }
     }
 
