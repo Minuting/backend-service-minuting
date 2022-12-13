@@ -32,7 +32,7 @@ object UserInfoDto {
             @ApiModelProperty("회사 정보")
             val company: Res.CompanyRes,
             @ApiModelProperty("팀 정보")
-            val team: Res.TeamRes,
+            val team: TeamDto.TeamSimpleDto,
             @ApiModelProperty("참가 스페이스 목록")
             val spaceList: List<SpaceDto.SpaceSimple>
     )
@@ -42,7 +42,7 @@ object UserInfoDto {
             name: String,
             memberType: MemberType,
             company: Res.CompanyRes,
-            team: Res.TeamRes,
+            team: TeamDto.TeamSimpleDto,
             spaceList: List<SpaceDto.SpaceSimple>
     ) : UserInfo(name, memberType, company, team, spaceList)
 
