@@ -15,7 +15,7 @@ class AccountEntity(
     var email: String = email
         protected set
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     var memberEntity: MemberEntity = memberEntity
         protected set

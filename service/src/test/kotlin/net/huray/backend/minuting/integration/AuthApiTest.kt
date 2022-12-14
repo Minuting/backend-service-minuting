@@ -95,7 +95,9 @@ class AuthApiTest(
             }
 
             Then("Create account") {
-                accountRepository.findByEmail("email")!!.memberEntity.name.shouldBe("name")
+                accountRepository.findByEmail("email")!!
+                    .also { it.email.shouldBe("email") }
+                    .also { accountRepository.findWithMemberById(it.id)!!.memberEntity.name.shouldBe("name") }
             }
 
             Then("Correct token") {

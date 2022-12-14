@@ -11,13 +11,13 @@ import java.util.*
 class AuthenticationFacade {
 
     var id: Long = -1L
-        get() = if (flag) id else throw BaseException(INVALID_TOKEN)
+        get() = if (flag) field else throw BaseException(INVALID_TOKEN)
     var uid: UUID = UUID.randomUUID()
-        get() = if (flag) uid else throw BaseException(INVALID_TOKEN)
+        get() = if (flag) field else throw BaseException(INVALID_TOKEN)
     var email: String = ""
-        get() = if (flag) email else throw BaseException(INVALID_TOKEN)
+        get() = if (flag) field else throw BaseException(INVALID_TOKEN)
     var name: String = ""
-        get() = if (flag) name else throw BaseException(INVALID_TOKEN)
+        get() = if (flag) field else throw BaseException(INVALID_TOKEN)
 
     private var flag: Boolean = false
 
