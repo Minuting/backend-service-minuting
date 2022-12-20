@@ -9,8 +9,10 @@ import net.huray.backend.minuting.dto.AuthDto.TokenRefreshReq
 import net.huray.backend.minuting.dto.AuthDto.TokenRefreshRes
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenRequest
 import net.huray.backend.minuting.entity.AccountEntity
+import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
+import net.huray.backend.minuting.repository.MemberRepository
 import net.huray.backend.minuting.support.JwtProvider
 import org.springframework.stereotype.Service
 import java.net.URLEncoder
@@ -20,6 +22,7 @@ class AuthService(
     private val googleAuthClient: GoogleAuthClient,
     private val googleInfoClient: GoogleInfoClient,
     private val accountRepository: AccountRepository,
+    private val memberRepository: MemberRepository,
     private val jwtProvider: JwtProvider,
     private val googleProperties: GoogleProperties
 ) {
@@ -36,7 +39,7 @@ class AuthService(
         GoogleTokenRequest(code, clientId, clientSecret, redirectUrl, "authorization_code")
             .let { googleAuthClient.getTokenByCode(it) }
             .run { googleInfoClient.getInfo("Bearer $accessToken") }
-            .run { accountRepository.findByEmail(email) ?: accountRepository.save(AccountEntity(email, name)) }
+            .run { accountRepository.findByEmail(email) ?: accountRepository.save(AccountEntity(email, memberRepository.save(MemberEntity(name)))) }
             .run { LoginRes(jwtProvider.generateAccessToken(id), jwtProvider.generateRefreshToken(id)) }
     }
 

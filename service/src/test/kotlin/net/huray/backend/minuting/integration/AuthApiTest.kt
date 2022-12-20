@@ -16,7 +16,9 @@ import net.huray.backend.minuting.dto.AuthDto.TokenRefreshRes
 import net.huray.backend.minuting.dto.GoogleDto.GoogleInfoResponse
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenResponse
 import net.huray.backend.minuting.entity.AccountEntity
+import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.repository.AccountRepository
+import net.huray.backend.minuting.repository.MemberRepository
 import net.huray.backend.minuting.support.JwtProvider
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -32,6 +34,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @AutoConfigureMockMvc
 class AuthApiTest(
     val accountRepository: AccountRepository,
+    val memberRepository: MemberRepository,
     val jwtProvider: JwtProvider,
     val mockMvc: MockMvc,
     val objectMapper: ObjectMapper,
@@ -92,7 +95,9 @@ class AuthApiTest(
             }
 
             Then("Create account") {
-                accountRepository.findByEmail("email")!!.name.shouldBe("name")
+                accountRepository.findByEmail("email")!!
+                    .also { it.email.shouldBe("email") }
+                    .also { accountRepository.findWithMemberById(it.id)!!.memberEntity.name.shouldBe("name") }
             }
 
             Then("Correct token") {
@@ -129,7 +134,8 @@ class AuthApiTest(
     }
 
     Given("Account is exists") {
-        val account = accountRepository.save(AccountEntity("email", "name"))
+        val member = memberRepository.save(MemberEntity("name"))
+        val account = accountRepository.save(AccountEntity("email", member))
 
         When("Request token refresh api with refresh token") {
             val content = objectMapper.writeValueAsString(TokenRefreshReq(jwtProvider.generateRefreshToken(account.id)))

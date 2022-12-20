@@ -12,7 +12,7 @@ class CompanyService(
     private val userComponent: UserComponent,
     private val authenticationFacade: AuthenticationFacade
 ) {
-    fun listTeam() = authenticationFacade.uid?.let {
+    fun listTeam() = authenticationFacade.uid.let {
         userComponent.get(it)
             .let {
                 companyComponent.listTeamByCompany(it.company)
