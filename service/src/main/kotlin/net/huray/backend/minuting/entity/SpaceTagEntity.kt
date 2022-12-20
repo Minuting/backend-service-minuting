@@ -16,8 +16,8 @@ class SpaceTagEntity(
     @JoinColumn(name = "space_id")
     var space: SpaceEntity = space
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
     var tag: TagEntity = tag
+
 }

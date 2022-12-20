@@ -31,6 +31,7 @@ object MinutesDto {
         title: String,
         contents: String
     ) : MinutesSimple(id, title, contents) {
+
         @ApiModelProperty("회의록 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var createdAt: LocalDateTime? = null

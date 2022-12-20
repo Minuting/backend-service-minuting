@@ -14,7 +14,7 @@ interface MinutesContract {
 
     @ApiOperation("회의록 생성")
     @PostMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(req: MinutesDto.CreateReq): SingleResult<MinutesDto.MinutesSimple>
+    fun create(@RequestBody req: MinutesDto.CreateReq): SingleResult<MinutesDto.MinutesSimple>
 
     @ApiOperation("회의록 리스트")
     @GetMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])

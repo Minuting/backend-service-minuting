@@ -34,4 +34,5 @@ class SpaceController(
     override fun join(id: Long) {
         SingleResult(spaceService.join(authenticationFacade.uid, id))
     }
+
 }

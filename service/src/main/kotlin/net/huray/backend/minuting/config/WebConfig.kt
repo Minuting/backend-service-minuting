@@ -15,7 +15,7 @@ class WebConfig(
     private val authenticationFacade: AuthenticationFacade,
     private val accountRepository: AccountRepository,
     private val jwtProvider: JwtProvider
-): WebMvcConfigurer {
+) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")

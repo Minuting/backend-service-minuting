@@ -14,14 +14,19 @@ class MinutesController(
     private val minutesWriteService: MinutesWriteService
 ) : MinutesContract {
 
-    override fun create(req: MinutesDto.CreateReq) = SingleResult(minutesWriteService.create(req))
+    override fun create(req: MinutesDto.CreateReq) =
+        SingleResult(minutesWriteService.create(req))
 
-    override fun listSimple() = ListResult(minutesReadService.list())
+    override fun listSimple() =
+        ListResult(minutesReadService.list())
 
-    override fun getDetail(id: Long) = SingleResult(minutesReadService.getDetailById(id))
+    override fun getDetail(id: Long) =
+        SingleResult(minutesReadService.getDetailById(id))
 
-    override fun update(id: Long, req: MinutesDto.UpdateReq) = minutesWriteService.update(id, req)
+    override fun update(id: Long, req: MinutesDto.UpdateReq) =
+        minutesWriteService.update(id, req)
 
-    override fun delete(id: Long) = minutesWriteService.hardDelete(id)
+    override fun delete(id: Long) =
+        minutesWriteService.hardDelete(id)
 
 }

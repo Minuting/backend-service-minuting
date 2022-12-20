@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.dto
 
 object Res {
+    
     class CompanyRes(
         val id: Long,
         val name: String,

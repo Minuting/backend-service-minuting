@@ -28,6 +28,7 @@ object CommentDto {
         commentId: Long,
         contents: String
     ) : CommentSimple(commentId, contents) {
+
         @ApiModelProperty("댓글 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var createdAt: LocalDateTime? = null
