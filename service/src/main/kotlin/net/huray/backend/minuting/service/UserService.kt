@@ -1,6 +1,6 @@
 package net.huray.backend.minuting.service
 
-import net.huray.backend.minuting.dto.Res
+import net.huray.backend.minuting.dto.CompanyDto
 import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.dto.TeamDto
 import net.huray.backend.minuting.dto.UserInfoDto
@@ -19,12 +19,9 @@ class UserService(
         .run {
             UserInfoDto.UserInfoDetail(
                 name, memberType,
-                Res.CompanyRes(company.id, company.name, company.ceo, company.telNumber, company.address),
-                TeamDto.TeamSimpleDto(id = team.id, name = team.name),
-                spaceComponent.listPermissionByMember(this).map {
-                    val space = it.space
-                    SpaceDto.SpaceSimple(space.id, space.name, space.description, space.icon, space.isPublic)
-                }
+                CompanyDto.CompanySimple(company.id, company.name, company.ceo, company.telNumber, company.address),
+                TeamDto.TeamSimple(id = team.id, name = team.name),
+                spaceComponent.listPermissionByMember(this).map { SpaceDto.SpaceSimple(it.space) }
             )
         }
 
@@ -32,5 +29,5 @@ class UserService(
         .map {
             UserInfoDto.UserInfoSimple(it.uid, it.name)
         }
-    
+
 }

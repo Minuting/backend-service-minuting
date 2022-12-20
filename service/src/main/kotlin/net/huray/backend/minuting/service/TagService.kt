@@ -10,9 +10,7 @@ class TagService(
     private val tagComponent: TagComponent
 ) {
 
-    fun listByType(tagType: TagType) = tagComponent.listByType(tagType)
-        .map {
-            TagDto.TagSimple(it.id, it.name, it.type, it.color, it.orderNum)
-        }
+    fun listByType(type: TagType) = tagComponent.listByType(type)
+        .map { TagDto.TagSimple(it.id, it.name, it.type, it.color, it.orderNum) }
 
 }

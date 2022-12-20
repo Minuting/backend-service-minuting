@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-
+@Transactional(readOnly = true)
 class TemplateService(
     private val userComponent: UserComponent,
     private val templateRepository: TemplateRepository
@@ -25,19 +25,18 @@ class TemplateService(
             .toTemplateSimple()
     }
 
-    @Transactional(readOnly = true)
     fun list() = templateRepository.findAll()
         .map { it.toTemplateSimple() }
 
-    @Transactional(readOnly = true)
     fun get(templateId: Long) = templateRepository.findById(templateId)
         .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
         .toTemplateDetail()
 
     @Transactional
-    fun update(templateId: Long, req: TemplateDto.UpdateReq) = templateRepository.findById(templateId)
-        .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
-        .updateTemplate(req.title, req.contents, userComponent.get(req.userId))
+    fun update(templateId: Long, req: TemplateDto.UpdateReq): TemplateEntity =
+        templateRepository.findById(templateId)
+            .orElseThrow { throw BaseException(TEMPLATE_NOT_FOUND, templateId) }
+            .apply { updateTemplate(req.title, req.contents, userComponent.get(req.userId)) }
 
     @Transactional
     fun hardDelete(templateId: Long) {

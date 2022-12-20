@@ -5,9 +5,8 @@ import javax.persistence.*
 
 @Entity(name = "permissions")
 class PermissionEntity(
+    type: PermissionType,
     member: MemberEntity,
-    @Enumerated(EnumType.STRING)
-    var type: PermissionType,
     space: SpaceEntity
 ) {
 
@@ -15,12 +14,15 @@ class PermissionEntity(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
 
+    @Enumerated(EnumType.STRING)
+    var type: PermissionType = type; protected set
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "space_id")
-    var space: SpaceEntity = space
+    var space: SpaceEntity = space; protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    var member: MemberEntity = member
+    var member: MemberEntity = member; protected set
 
 }

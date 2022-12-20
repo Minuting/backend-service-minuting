@@ -3,11 +3,8 @@ package net.huray.backend.minuting.support
 import net.huray.backend.http.exception.BaseException
 import net.huray.backend.http.exception.code.ErrorCode.INVALID_TOKEN
 import net.huray.backend.minuting.repository.AccountRepository
-import net.huray.backend.minuting.repository.MemberRepository
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpMethod
 import org.springframework.web.servlet.HandlerInterceptor
-import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -26,9 +23,9 @@ class JwtInterceptor(
                 ?.takeIf { jwtProvider.isAccess(it) }
                 ?.let { jwtProvider.getId(it) }
                 ?.let { accountRepository.findWithMemberById(it) }
-                ?.apply { authenticationFacade.setInfo(id, memberEntity.uid, email, memberEntity.name) }
+                ?.apply { authenticationFacade.setInfo(id, member.uid, email, member.name) }
                 ?: throw BaseException(INVALID_TOKEN)
         return super.preHandle(request, response, handler)
     }
-    
+
 }

@@ -1,8 +1,12 @@
 package net.huray.backend.minuting.dto
 
+import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import springfox.documentation.annotations.ApiIgnore
 
 object TeamDto {
+
+    @ApiIgnore
     open class TeamBase(
         @ApiModelProperty("팀 ID", required = true)
         val id: Long,
@@ -12,7 +16,8 @@ object TeamDto {
         var pId: Long? = null
     )
 
-    class TeamSimpleDto(
+    @ApiModel("팀 기본 응답 정보")
+    class TeamSimple(
         id: Long,
         name: String,
         pId: Long? = null,

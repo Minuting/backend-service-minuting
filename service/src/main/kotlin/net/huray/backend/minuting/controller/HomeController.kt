@@ -14,7 +14,6 @@ class HomeController(
 ) {
 
     @GetMapping("/me")
-    fun getMe() =
-        SingleResult(userService.getBaseInfo(authenticationFacade.uid))
+    fun getMe() = SingleResult(userService.getBaseInfo(authenticationFacade.uid))
 
 }

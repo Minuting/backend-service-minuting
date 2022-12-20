@@ -6,18 +6,23 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 
 @Entity(name = "company")
-class CompanyEntity() {
+class CompanyEntity(
+    name: String,
+    ceo: String,
+    telNumber: String,
+    address: String
+) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
 
-    var name: String = ""
+    var name = name; protected set
 
-    var ceo: String = ""
+    var ceo = ceo; protected set
 
-    var telNumber: String = ""
+    var telNumber = telNumber; protected set
 
-    var address: String = ""
+    var address = address; protected set
 
 }

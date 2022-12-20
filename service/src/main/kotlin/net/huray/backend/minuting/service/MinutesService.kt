@@ -3,13 +3,14 @@ package net.huray.backend.minuting.service
 import net.huray.backend.http.exception.BaseException
 import net.huray.backend.http.exception.code.ErrorCode
 import net.huray.backend.minuting.dto.MinutesDto
+import net.huray.backend.minuting.entity.MinutesEntity
 import net.huray.backend.minuting.repository.MinutesRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 @Transactional(readOnly = true)
-class MinutesReadService(
+class MinutesService(
     private val minutesRepository: MinutesRepository
 ) {
 
@@ -24,5 +25,19 @@ class MinutesReadService(
                 this.updatedAt = it.updatedAt
             }
         }
+
+    @Transactional
+    fun create(req: MinutesDto.CreateReq) = minutesRepository.save(MinutesEntity(req.title, req.contents))
+        .let { MinutesDto.MinutesSimple(it.id, it.title, it.contents) }
+
+    @Transactional
+    fun update(id: Long, req: MinutesDto.UpdateReq) = minutesRepository.findById(id)
+        .orElseThrow { throw Exception() }
+        .run { updateMinutes(req.title, req.contents) }
+
+    @Transactional
+    fun hardDelete(id: Long) {
+        minutesRepository.deleteById(id)
+    }
 
 }

@@ -2,6 +2,7 @@ package net.huray.backend.minuting.contract
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import net.huray.backend.http.res.DoneResult
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.Endpoint.MINUTES
@@ -14,25 +15,29 @@ interface MinutesContract {
 
     @ApiOperation("회의록 생성")
     @PostMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(@RequestBody req: MinutesDto.CreateReq): SingleResult<MinutesDto.MinutesSimple>
+    fun create(
+        @RequestBody req: MinutesDto.CreateReq
+    ): SingleResult<MinutesDto.MinutesSimple>
 
-    @ApiOperation("회의록 리스트")
+    @ApiOperation("회의록 목록")
     @GetMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun listSimple(): ListResult<MinutesDto.MinutesSimple>
+    fun listSimple(
+        req: MinutesDto.ListReq
+    ): ListResult<MinutesDto.MinutesSimple>
 
     @ApiOperation("회의록 상세 조회")
-    @GetMapping("${MINUTES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getDetail(@PathVariable id: Long): SingleResult<MinutesDto.MinutesDetail>
+    @GetMapping("${MINUTES}/{minutesId}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getDetail(@PathVariable minutesId: Long): SingleResult<MinutesDto.MinutesDetail>
 
     @ApiOperation("회의록 수정")
-    @PutMapping("${MINUTES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PutMapping("${MINUTES}/{minutesId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
-        @PathVariable id: Long,
-        req: MinutesDto.UpdateReq
-    )
+        @PathVariable minutesId: Long,
+        @RequestBody req: MinutesDto.UpdateReq
+    ): DoneResult
 
     @ApiOperation("회의록 삭제")
-    @DeleteMapping("${MINUTES}/{id}")
-    fun delete(@PathVariable id: Long)
+    @DeleteMapping("${MINUTES}/{minutesId}")
+    fun delete(@PathVariable minutesId: Long): DoneResult
 
 }

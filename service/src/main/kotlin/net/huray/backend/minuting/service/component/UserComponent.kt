@@ -12,9 +12,10 @@ class UserComponent(
     private val memberRepository: MemberRepository
 ) {
 
-    fun get(uid: UUID): MemberEntity = memberRepository.findById(uid)
-        .orElseThrow { throw BaseException(MEMBER_NOT_FOUND, uid) }
+    fun get(uid: UUID): MemberEntity =
+        memberRepository.findById(uid).orElseThrow { throw BaseException(MEMBER_NOT_FOUND, uid) }
 
-    fun searchByName(name: String): List<MemberEntity> = memberRepository.findByNameContains(name)
+    fun searchByName(name: String): List<MemberEntity> =
+        memberRepository.findByNameContains(name)
 
 }

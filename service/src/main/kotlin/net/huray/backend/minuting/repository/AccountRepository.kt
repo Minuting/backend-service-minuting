@@ -8,7 +8,7 @@ interface AccountRepository : JpaRepository<AccountEntity, Long> {
 
     fun findByEmail(email: String): AccountEntity?
 
-    @EntityGraph(attributePaths = ["memberEntity"])
+    @EntityGraph(attributePaths = ["member"])
     fun findWithMemberById(id: Long): AccountEntity?
 
 }

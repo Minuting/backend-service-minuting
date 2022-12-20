@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
+@Transactional(readOnly = true)
 class CommentService(
     private val minutesRepository: MinutesRepository,
     private val commentRepository: CommentRepository
@@ -53,10 +54,11 @@ class CommentService(
             .also {
                 commentRepository.findById(commentId)
                     .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
-                    .apply { updateComment(req) }
+                    .apply { updateComment(req.contents) }
             }
     }
 
+    @Transactional
     fun hardDelete(minutesId: Long, commentId: Long) {
         minutesRepository.findById(minutesId)
             .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }

@@ -1,10 +1,13 @@
 package net.huray.backend.minuting.dto
 
+import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.TagType
+import springfox.documentation.annotations.ApiIgnore
 
 object TagDto {
 
+    @ApiIgnore
     open class TagBase(
         @ApiModelProperty("태그 ID", required = true)
         var id: Long = 0L,
@@ -18,6 +21,7 @@ object TagDto {
         var orderNum: Int = 0,
     )
 
+    @ApiModel("태그 기본 응답 정보")
     class TagSimple(
         id: Long,
         name: String,

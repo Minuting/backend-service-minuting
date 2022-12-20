@@ -1,5 +1,6 @@
 package net.huray.backend.minuting.controller
 
+import net.huray.backend.http.res.DoneResult
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.SpaceContract
@@ -7,7 +8,6 @@ import net.huray.backend.minuting.dto.SpaceDto
 import net.huray.backend.minuting.service.SpaceService
 import net.huray.backend.minuting.support.AuthenticationFacade
 import org.springframework.web.bind.annotation.RestController
-import java.util.*
 
 @RestController
 class SpaceController(
@@ -24,15 +24,18 @@ class SpaceController(
     override fun listPublic(): ListResult<SpaceDto.SpacePublic> =
         ListResult(spaceService.listPublic(authenticationFacade.uid))
 
-    override fun update(id: Long, req: SpaceDto.UpdateReq) =
-        SingleResult(spaceService.update(authenticationFacade.uid, id, req))
+    override fun update(id: Long, req: SpaceDto.UpdateReq): DoneResult {
+        spaceService.update(authenticationFacade.uid, id, req)
+
+        return DoneResult()
+    }
 
     override fun delete(id: Long) {
-        spaceService.delete(authenticationFacade.uid, id);
+        spaceService.delete(authenticationFacade.uid, id)
     }
 
     override fun join(id: Long) {
-        SingleResult(spaceService.join(authenticationFacade.uid, id))
+        spaceService.join(authenticationFacade.uid, id)
     }
 
 }

@@ -2,6 +2,7 @@ package net.huray.backend.minuting.contract
 
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
+import net.huray.backend.http.res.DoneResult
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.Endpoint.SPACES
@@ -20,7 +21,7 @@ interface SpaceContract {
     @GetMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun get(@PathVariable id: Long): SingleResult<SpaceDto.SpaceDetail>
 
-    @ApiOperation("공개 스페이스 리스트")
+    @ApiOperation("공개 스페이스 목록")
     @GetMapping("${SPACES}/public", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listPublic(): ListResult<SpaceDto.SpacePublic>
 
@@ -29,7 +30,7 @@ interface SpaceContract {
     fun update(
         @PathVariable id: Long,
         @RequestBody req: SpaceDto.UpdateReq
-    ): SingleResult<SpaceDto.SpaceSimple>
+    ): DoneResult
 
     @ApiOperation("스페이스 삭제")
     @DeleteMapping("${SPACES}/{id}")

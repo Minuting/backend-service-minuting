@@ -14,10 +14,10 @@ class SpaceTagEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "space_id")
-    var space: SpaceEntity = space
+    var space: SpaceEntity = space; protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tag_id")
-    var tag: TagEntity = tag
+    var tag: TagEntity = tag; protected set
 
 }

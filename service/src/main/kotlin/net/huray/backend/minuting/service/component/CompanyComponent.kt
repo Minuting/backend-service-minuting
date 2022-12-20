@@ -1,6 +1,7 @@
 package net.huray.backend.minuting.service.component
 
 import net.huray.backend.minuting.entity.CompanyEntity
+import net.huray.backend.minuting.entity.TeamEntity
 import net.huray.backend.minuting.repository.TeamRepository
 import org.springframework.stereotype.Component
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Component
 class CompanyComponent(
     private val teamRepository: TeamRepository
 ) {
-    fun listTeamByCompany(companyEntity: CompanyEntity) =
+
+    fun listTeamByCompany(companyEntity: CompanyEntity): List<TeamEntity> =
         teamRepository.findByCompany(companyEntity)
+
 }

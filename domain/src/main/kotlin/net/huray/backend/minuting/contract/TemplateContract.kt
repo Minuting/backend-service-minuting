@@ -13,27 +13,33 @@ import org.springframework.web.bind.annotation.*
 @Api(tags = ["템플릿 API"])
 interface TemplateContract {
 
-    @ApiOperation("템플릿 등록")
+    @ApiOperation("템플릿 생성")
     @PostMapping(TEMPLATE, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(req: TemplateDto.CreateReq): SingleResult<TemplateDto.TemplateSimple>
+    fun create(
+        @RequestBody req: TemplateDto.CreateReq
+    ): SingleResult<TemplateDto.TemplateSimple>
 
-    @ApiOperation("템플릿 리스트")
+    @ApiOperation("템플릿 목록")
     @GetMapping(TEMPLATE, produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listSimple(): ListResult<TemplateDto.TemplateSimple>
 
     @ApiOperation("템플릿 상세 정보")
     @GetMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getDetail(@PathVariable templateId: Long): SingleResult<TemplateDto.TemplateDetail>
+    fun getDetail(
+        @PathVariable templateId: Long
+    ): SingleResult<TemplateDto.TemplateDetail>
 
     @ApiOperation("템플릿 수정")
     @PutMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun update(
         @PathVariable templateId: Long,
-        req: TemplateDto.UpdateReq
+        @RequestBody req: TemplateDto.UpdateReq
     ): DoneResult
 
     @ApiOperation("템플릿 삭제")
     @DeleteMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun delete(@PathVariable templateId: Long): DoneResult
+    fun delete(
+        @PathVariable templateId: Long
+    ): DoneResult
 
 }

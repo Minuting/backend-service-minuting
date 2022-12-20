@@ -5,19 +5,17 @@ import javax.persistence.*
 @Entity(name = "accounts")
 class AccountEntity(
     email: String,
-    memberEntity: MemberEntity
+    member: MemberEntity
 ) {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Long = 0L
 
-    var email: String = email
-        protected set
+    var email: String = email; protected set
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
-    var memberEntity: MemberEntity = memberEntity
-        protected set
+    var member: MemberEntity = member; protected set
 
 }

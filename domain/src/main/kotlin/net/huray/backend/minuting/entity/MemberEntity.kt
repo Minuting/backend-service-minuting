@@ -7,7 +7,12 @@ import javax.persistence.*
 
 @Entity(name = "members")
 class MemberEntity(
-    var name: String = ""
+    name: String,
+    email: String,
+    memberType: MemberType,
+    company: CompanyEntity,
+    team: TeamEntity,
+    account: AccountEntity
 ) {
 
     @Id
@@ -16,16 +21,23 @@ class MemberEntity(
     @Column(columnDefinition = "BINARY(16)")
     var uid: UUID = UUID.randomUUID()
 
+    var name = name; protected set
+
+    var email = email; protected set
+
+    @Enumerated(EnumType.STRING)
+    var memberType = memberType; protected set
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    lateinit var company: CompanyEntity
+    var company: CompanyEntity = company; protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
-    lateinit var team: TeamEntity
+    var team: TeamEntity = team; protected set
 
-    @OneToOne(mappedBy = "memberEntity", fetch = FetchType.LAZY)
-    lateinit var accountEntity: AccountEntity
+    @OneToOne(mappedBy = "member")
+    var account: AccountEntity = account; protected set
 
     /*
     @OneToMany(
@@ -40,8 +52,5 @@ fun addTemplate(template: TemplateEntity) {
         mutableTemplateList.add(template)
     }
      */
-
-    @Enumerated(EnumType.STRING)
-    var memberType: MemberType = MemberType.MEMBER
 
 }

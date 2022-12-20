@@ -19,7 +19,7 @@ class CommentController(
     override fun listSimple(minutesId: Long) =
         ListResult(commentService.list(minutesId))
 
-    override fun getComment(minutesId: Long, commentId: Long) =
+    override fun getDetail(minutesId: Long, commentId: Long) =
         SingleResult(commentService.getComment(minutesId, commentId))
 
     override fun update(minutesId: Long, commentId: Long, req: CommentDto.UpdateReq): DoneResult {

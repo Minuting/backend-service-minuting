@@ -18,9 +18,8 @@ class SpaceComponent(
     private val spaceTagRepository: SpaceTagRepository
 ) {
 
-    fun get(id: Long) =
-        spaceRepository.findById(id)
-            .orElseThrow { throw BaseException(SPACE_NOT_FOUND, id) }
+    fun get(id: Long): SpaceEntity =
+        spaceRepository.findById(id).orElseThrow { throw BaseException(SPACE_NOT_FOUND, id) }
 
     fun listPermissionByMember(member: MemberEntity) =
         permissionRepository.findByMember(member)
@@ -28,17 +27,20 @@ class SpaceComponent(
     fun getPermissionBySpaceAndMember(space: SpaceEntity, member: MemberEntity) =
         permissionRepository.findBySpaceAndMember(space, member)
 
-    fun listPublic() = spaceRepository.findByIsPublicTrue()
+    fun listPublic(): List<SpaceEntity> =
+        spaceRepository.findByIsPublicTrue()
 
-    fun save(space: SpaceEntity) = spaceRepository.saveAndFlush(space)
+    fun save(space: SpaceEntity): SpaceEntity =
+        spaceRepository.saveAndFlush(space)
 
-    fun savePermissionAll(permissions: List<PermissionEntity>) =
+    fun savePermissionAll(permissions: List<PermissionEntity>): MutableList<PermissionEntity> =
         permissionRepository.saveAll(permissions)
 
-    fun saveSpaceTagAll(spaceTags: List<SpaceTagEntity>) =
+    fun saveSpaceTagAll(spaceTags: List<SpaceTagEntity>): MutableList<SpaceTagEntity> =
         spaceTagRepository.saveAll(spaceTags)
 
-    fun delete(id: Long) =
+    fun delete(id: Long) {
         spaceRepository.deleteById(id)
+    }
 
 }

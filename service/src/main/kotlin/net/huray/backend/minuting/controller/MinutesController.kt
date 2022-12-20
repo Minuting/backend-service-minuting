@@ -1,32 +1,37 @@
 package net.huray.backend.minuting.controller
 
+import net.huray.backend.http.res.DoneResult
 import net.huray.backend.http.res.ListResult
 import net.huray.backend.http.res.SingleResult
 import net.huray.backend.minuting.contract.MinutesContract
 import net.huray.backend.minuting.dto.MinutesDto
-import net.huray.backend.minuting.service.MinutesReadService
-import net.huray.backend.minuting.service.MinutesWriteService
+import net.huray.backend.minuting.service.MinutesService
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class MinutesController(
-    private val minutesReadService: MinutesReadService,
-    private val minutesWriteService: MinutesWriteService
+    private val minutesService: MinutesService
 ) : MinutesContract {
 
     override fun create(req: MinutesDto.CreateReq) =
-        SingleResult(minutesWriteService.create(req))
+        SingleResult(minutesService.create(req))
 
-    override fun listSimple() =
-        ListResult(minutesReadService.list())
+    override fun listSimple(req: MinutesDto.ListReq) =
+        ListResult(minutesService.list())
 
-    override fun getDetail(id: Long) =
-        SingleResult(minutesReadService.getDetailById(id))
+    override fun getDetail(minutesId: Long) =
+        SingleResult(minutesService.getDetailById(minutesId))
 
-    override fun update(id: Long, req: MinutesDto.UpdateReq) =
-        minutesWriteService.update(id, req)
+    override fun update(minutesId: Long, req: MinutesDto.UpdateReq): DoneResult {
+        minutesService.update(minutesId, req)
 
-    override fun delete(id: Long) =
-        minutesWriteService.hardDelete(id)
+        return DoneResult()
+    }
+
+    override fun delete(minutesId: Long): DoneResult {
+        minutesService.hardDelete(minutesId)
+
+        return DoneResult()
+    }
 
 }

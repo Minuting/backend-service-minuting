@@ -3,10 +3,12 @@ package net.huray.backend.minuting.dto
 import com.fasterxml.jackson.annotation.JsonFormat
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
+import springfox.documentation.annotations.ApiIgnore
 import java.time.LocalDateTime
 
 object MinutesDto {
 
+    @ApiIgnore
     open class MinutesBase(
         @ApiModelProperty("회의록 ID", required = true)
         var id: Long,
@@ -18,6 +20,7 @@ object MinutesDto {
         var contents: String
     )
 
+    @ApiModel("회의록 기본 응답 정보")
     open class MinutesSimple(
         id: Long,
         title: String,
@@ -26,6 +29,7 @@ object MinutesDto {
 
     }
 
+    @ApiModel("회의록 상세 응답 정보")
     open class MinutesDetail(
         id: Long,
         title: String,
@@ -40,6 +44,18 @@ object MinutesDto {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var updatedAt: LocalDateTime? = null
     }
+
+    @ApiModel("회의록 목록 요청 정보")
+    class ListReq(
+        @ApiModelProperty("회의록 제목")
+        var title: String = "",
+
+        @ApiModelProperty("회의록 내용")
+        var contents: String = "",
+
+        @ApiModelProperty("회의록 팀")
+        var teamId: Long = 0L
+    )
 
     @ApiModel("회의록 등록 요청 정보")
     class CreateReq(

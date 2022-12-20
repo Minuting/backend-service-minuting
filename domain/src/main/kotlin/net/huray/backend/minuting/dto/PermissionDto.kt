@@ -3,10 +3,12 @@ package net.huray.backend.minuting.dto
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import net.huray.backend.minuting.enums.PermissionType
+import springfox.documentation.annotations.ApiIgnore
 import java.util.*
 
 object PermissionDto {
 
+    @ApiIgnore
     open class PermissionBase(
         @ApiModelProperty("권한 ID", required = true)
         var id: Long,
@@ -18,6 +20,7 @@ object PermissionDto {
         var member: MemberDto.MemberBase
     )
 
+    @ApiModel("권한 기본 응답 정보")
     class PermissionSimple(
         id: Long,
         type: PermissionType,

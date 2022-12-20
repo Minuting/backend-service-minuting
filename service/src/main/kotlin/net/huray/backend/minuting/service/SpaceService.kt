@@ -3,7 +3,6 @@ package net.huray.backend.minuting.service
 import net.huray.backend.http.exception.BaseException
 import net.huray.backend.http.exception.code.ErrorCode.SPACE_FORBIDDEN
 import net.huray.backend.minuting.dto.SpaceDto
-import net.huray.backend.minuting.dto.TagDto
 import net.huray.backend.minuting.entity.PermissionEntity
 import net.huray.backend.minuting.entity.SpaceEntity
 import net.huray.backend.minuting.entity.SpaceTagEntity
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Service
+@Transactional(readOnly = true)
 class SpaceService(
     private val userComponent: UserComponent,
     private val spaceComponent: SpaceComponent,
@@ -27,132 +27,67 @@ class SpaceService(
 ) {
 
     fun get(uid: UUID, id: Long) = spaceComponent.get(id)
-        .run {
-            if (owner.uid == uid) SpacePermissionType.OWNER
-            else {
-                spaceComponent.getPermissionBySpaceAndMember(this, userComponent.get(uid))?.type
-                    ?: SpacePermissionType.GUEST
-            }.let {
-                SpaceDto.SpaceDetail(
-                    id,
-                    name,
-                    description,
-                    icon,
-                    isPublic,
-                    it as SpacePermissionType,
-                    permissions.map { SpaceDto.SpaceMemberBase(it.member.name, it.type) },
-                    spaceTags.map {
-                        var tag = it.tag
-                        TagDto.TagSimple(tag.id, tag.name, tag.type, tag.color, tag.orderNum)
-                    })
-            }
+        .let {
+            val permission = if (it.owner.uid == uid) SpacePermissionType.OWNER
+            else spaceComponent.getPermissionBySpaceAndMember(it, userComponent.get(uid))?.type
+                ?: SpacePermissionType.GUEST
+
+            SpaceDto.SpaceDetail(it, permission as SpacePermissionType, it.permissionList, it.spaceTagList)
         }
 
-    fun listPublic(uid: UUID) = userComponent.get(uid)
-        .let { memberEntity ->
-            spaceComponent.listPermissionByMember(memberEntity)
-                .map { it.space }
-                .filter { it.isPublic }
-        }.let { spaceEntityList ->
-            spaceComponent.listPublic()
-                .map { publicSpace ->
-                    SpaceDto.SpacePublic(
-                        publicSpace.id,
-                        publicSpace.name,
-                        publicSpace.description,
-                        publicSpace.icon,
-                        publicSpace.isPublic
-                    ).also {
-                        it.isJoined = spaceEntityList.any { space -> space.id == publicSpace.id }
-                    }
-                }
-        }
+    fun listPublic(uid: UUID) = with(userComponent.get(uid)) {
+        spaceComponent.listPermissionByMember(this)
+            .map { it.space }
+            .filter { it.isPublic }
+            .let { list -> spaceComponent.listPublic().map { SpaceDto.SpacePublic(it, list) } }
+    }
 
     @Transactional
     fun create(uid: UUID, req: SpaceDto.CreateReq) =
         spaceComponent.save(
-            SpaceEntity(
-                req.name,
-                req.description,
-                req.icon,
-                userComponent.get(uid),
-                req.isPublic,
-            )
-        ).let { spaceEntity ->
+            SpaceEntity(req.name, req.description, req.icon, req.isPublic, userComponent.get(uid))
+        ).also { space ->
             spaceComponent.saveSpaceTagAll(
-                req.tagIdList.map {
-                    SpaceTagEntity(
-                        spaceEntity,
-                        tagComponent.get(it)
-                    )
-                }.toMutableList()
+                req.tagIdList.map { SpaceTagEntity(space, tagComponent.get(it)) }
             )
-            spaceComponent.savePermissionAll(req.permissions.map {
-                PermissionEntity(userComponent.get(it.memberId), it.type, spaceEntity)
-            }.toMutableList())
-            SpaceDto.SpaceSimple(
-                spaceEntity.id,
-                spaceEntity.name,
-                spaceEntity.description,
-                spaceEntity.icon,
-                spaceEntity.isPublic,
+            spaceComponent.savePermissionAll(
+                req.permissionList.map { PermissionEntity(it.type, userComponent.get(it.memberId), space) }
             )
-        }
+        }.let { SpaceDto.SpaceSimple(it) }
 
 
     @Transactional
     fun update(uid: UUID, id: Long, req: SpaceDto.UpdateReq) =
         spaceComponent.get(id)
-            .let { spaceEntity ->
-                spaceEntity.updateSpace(
-                    req.name,
-                    req.description,
-                    req.icon,
-                    req.isPublic,
-                    req.tagIdList.map {
-                        SpaceTagEntity(
-                            spaceEntity,
-                            tagComponent.get(it)
-                        )
-                    }.toMutableList(),
-                    req.permissions.map {
-                        PermissionEntity(userComponent.get(it.memberId), it.type, spaceEntity)
-                    }.toMutableList()
+            .run {
+                updateSpace(name, description, icon, isPublic)
+                addAllSpaceTags(req.tagIdList.map { SpaceTagEntity(this, tagComponent.get(it)) })
+                addAllPermissions(
+                    req.permissionList.map { PermissionEntity(it.type, userComponent.get(it.memberId), this) }
                 )
-                SpaceDto.SpaceSimple(
-                    spaceEntity.id,
-                    spaceEntity.name,
-                    spaceEntity.description,
-                    spaceEntity.icon,
-                    spaceEntity.isPublic,
-                )
+
+                SpaceDto.SpaceSimple(this)
             }
 
     @Transactional
-    fun delete(uid: UUID, id: Long) =
+    fun delete(uid: UUID, id: Long) {
         spaceComponent.get(id)
-            .let { spaceEntity ->
-                if (uid != spaceEntity.owner.uid || MemberType.ADMIN == userComponent.get(uid).memberType)
+            .also {
+                if (uid != it.owner.uid || userComponent.get(uid).memberType == MemberType.ADMIN)
                     throw BaseException(SPACE_FORBIDDEN, id)
-                spaceComponent.delete(id)
-            }
+            }.let { spaceComponent.delete(id) }
+    }
 
 
     @Transactional
-    fun join(uid: UUID, id: Long) =
+    fun join(uid: UUID, id: Long) {
         spaceComponent.get(id)
-            .let { spaceEntity ->
-                if (!spaceEntity.isPublic)
-                    throw BaseException(SPACE_FORBIDDEN, id)
-                if (spaceEntity.permissions.any { e -> e.member.uid == uid })
-                    throw BaseException(SPACE_FORBIDDEN, id)
-                spaceEntity.permissions.add(
-                    PermissionEntity(
-                        userComponent.get(uid),
-                        PermissionType.WRITE,
-                        spaceEntity
-                    )
-                )
+            .apply {
+                if (!isPublic) throw BaseException(SPACE_FORBIDDEN, id)
+                if (permissionList.any { it.member.uid == uid }) throw BaseException(SPACE_FORBIDDEN, id)
+
+                addAllPermissions(listOf(PermissionEntity(PermissionType.WRITE, userComponent.get(uid), this)))
             }
+    }
 
 }

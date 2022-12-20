@@ -16,5 +16,5 @@ class FeignConfig(
     fun retryer(): Retryer = with(feignProperties) {
         Retryer.Default(period, maxPeriod, maxAttempts)
     }
-    
+
 }

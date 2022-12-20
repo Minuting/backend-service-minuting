@@ -31,9 +31,7 @@ object TemplateDto {
         user: UserInfoDto.UserInfoBase?,
         title: String,
         contents: String
-    ) : TemplateBase(templateId, user, title, contents) {
-
-    }
+    ) : TemplateBase(templateId, user, title, contents)
 
     @ApiModel("템플릿 상세 응답 정보")
     class TemplateDetail(
@@ -52,7 +50,7 @@ object TemplateDto {
         var updatedAt: LocalDateTime? = null
     }
 
-    @ApiModel("템플릿 리스트 요청 정보")
+    @ApiModel("템플릿 목록 요청 정보")
     class ListReq(
         @ApiModelProperty("템플릿 작성자")
         var userId: UUID
