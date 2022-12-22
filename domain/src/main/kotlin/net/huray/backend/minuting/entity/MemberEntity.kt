@@ -11,8 +11,7 @@ class MemberEntity(
     email: String,
     memberType: MemberType,
     company: CompanyEntity,
-    team: TeamEntity,
-    account: AccountEntity
+    team: TeamEntity
 ) {
 
     @Id
@@ -37,7 +36,7 @@ class MemberEntity(
     var team: TeamEntity = team; protected set
 
     @OneToOne(mappedBy = "member")
-    var account: AccountEntity = account; protected set
+    lateinit var account: AccountEntity// = account; protected set
 
     /*
     @OneToMany(
