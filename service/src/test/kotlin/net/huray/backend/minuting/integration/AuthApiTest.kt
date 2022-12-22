@@ -71,7 +71,7 @@ class AuthApiTest(
     }
 
     Given("Google code is correct") {
-        every { googleAuthClient.getTokenByCode(any()) } returns GoogleTokenResponse(
+        every { googleAuthClient.getTokenByCode(allAny()) } returns GoogleTokenResponse(
             "accessToken",
             "expiresIn",
             "tokenIn",
@@ -108,7 +108,6 @@ class AuthApiTest(
 
             Then("Correct token") {
                 val account = accountRepository.findByEmail("email")!!
-
                 val loginRes =
                     objectMapper.readValue(response.andReturn().response.contentAsString, LoginRes::class.java)
                 with(jwtProvider) {
@@ -142,8 +141,6 @@ class AuthApiTest(
         }
     }
 
-    // FIXME: 2022/12/21 - 현재 엔티티 구조가 변경되어, MemberEntity 가 정리된 뒤 `Given` 항목 변경 필요
-    /*
     Given("Account is exists") {
         val member = memberRepository.save(MemberEntity("name"))
         val account = accountRepository.save(AccountEntity("email", member))
@@ -164,7 +161,10 @@ class AuthApiTest(
 
             Then("Correct token") {
                 val loginRes =
-                    objectMapper.readValue(response.andReturn().response.contentAsString, TokenRefreshRes::class.java)
+                    objectMapper.readValue(
+                        response.andReturn().response.contentAsString,
+                        TokenRefreshRes::class.java
+                    )
                 with(jwtProvider) {
                     getBody(loginRes.accessToken).also {
                         getId(it).shouldBe(account.id)
@@ -189,7 +189,6 @@ class AuthApiTest(
             }
         }
     }
-    */
 
     Given("Account is not exists") {
         When("Request token refresh api with refresh token") {

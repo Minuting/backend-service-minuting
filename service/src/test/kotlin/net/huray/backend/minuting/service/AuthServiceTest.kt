@@ -14,10 +14,7 @@ import net.huray.backend.minuting.dto.AuthDto.TokenRefreshReq
 import net.huray.backend.minuting.dto.GoogleDto.GoogleInfoResponse
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenResponse
 import net.huray.backend.minuting.entity.AccountEntity
-import net.huray.backend.minuting.entity.CompanyEntity
 import net.huray.backend.minuting.entity.MemberEntity
-import net.huray.backend.minuting.entity.TeamEntity
-import net.huray.backend.minuting.enums.MemberType
 import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
 import net.huray.backend.minuting.repository.MemberRepository
@@ -85,15 +82,7 @@ class AuthServiceTest : BehaviorSpec({
             "emailVerified",
             "locale"
         )
-        val company = CompanyEntity("", "", "", "")
-        every { accountRepository.findByEmail("email") } returns AccountEntity(
-            "email",
-            MemberEntity(
-                "name", "test@test.com", MemberType.MEMBER,
-                company,
-                TeamEntity("", company)
-            )
-        )
+        every { accountRepository.findByEmail("email") } returns AccountEntity("email", MemberEntity("name"))
         with(jwtProvider) {
             every { generateAccessToken(0L) } returns "accessToken"
             every { generateRefreshToken(0L) } returns "refreshToken"

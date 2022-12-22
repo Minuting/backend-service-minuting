@@ -8,6 +8,6 @@ interface MemberRepository : JpaRepository<MemberEntity, UUID> {
 
     fun findByNameContains(name: String): List<MemberEntity>
 
-    fun findByEmail(email: String): MemberEntity
+    fun findByEmail(email: String): MemberEntity?
 
 }

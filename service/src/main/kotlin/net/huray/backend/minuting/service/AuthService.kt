@@ -9,6 +9,7 @@ import net.huray.backend.minuting.dto.AuthDto.TokenRefreshReq
 import net.huray.backend.minuting.dto.AuthDto.TokenRefreshRes
 import net.huray.backend.minuting.dto.GoogleDto.GoogleTokenRequest
 import net.huray.backend.minuting.entity.AccountEntity
+import net.huray.backend.minuting.entity.MemberEntity
 import net.huray.backend.minuting.properties.GoogleProperties
 import net.huray.backend.minuting.repository.AccountRepository
 import net.huray.backend.minuting.repository.MemberRepository
@@ -40,7 +41,13 @@ class AuthService(
             .run { googleInfoClient.getInfo("Bearer $accessToken") }
             .run {
                 accountRepository.findByEmail(email)
-                    ?: accountRepository.save(AccountEntity(email, memberRepository.findByEmail(email)))
+                    ?: accountRepository.save(
+                        AccountEntity(
+                            email, memberRepository.findByEmail(email)
+                            // FIXME: 2022/12/23 - 테스트용 방어코드 추가. to be: 테스트 spyk 로 수정하거나 Entity 모델링 정확하게 정의
+                                ?: memberRepository.save(MemberEntity(name))
+                        )
+                    )
             }
             .run { LoginRes(jwtProvider.generateAccessToken(id), jwtProvider.generateRefreshToken(id)) }
     }

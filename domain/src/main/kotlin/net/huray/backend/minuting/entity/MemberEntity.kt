@@ -7,11 +7,11 @@ import javax.persistence.*
 
 @Entity(name = "members")
 class MemberEntity(
-    name: String,
-    email: String,
-    memberType: MemberType,
-    company: CompanyEntity,
-    team: TeamEntity
+    name: String = "",
+    email: String = "",
+    memberType: MemberType = MemberType.MEMBER,
+//    company: CompanyEntity,
+//    team: TeamEntity
 ) {
 
     @Id
@@ -29,11 +29,11 @@ class MemberEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "company_id")
-    var company: CompanyEntity = company; protected set
+    lateinit var company: CompanyEntity// = company; protected set
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id", insertable = false, updatable = false)
-    var team: TeamEntity = team; protected set
+    lateinit var team: TeamEntity// = team; protected set
 
     @OneToOne(mappedBy = "member")
     lateinit var account: AccountEntity// = account; protected set
