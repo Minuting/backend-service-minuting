@@ -14,6 +14,6 @@ interface TagContract {
 
     @ApiOperation("타입별 태그 목록 (타입 : SPACE/MINUTES)")
     @GetMapping("${TAGS}/{type}")
-    fun listByType(@PathVariable(name = "type") type: TagType): ListResult<TagDto.TagSimple>
+    fun listByType(@PathVariable(name = "type") type: TagType): ListResult<TagDto.SimpleRes>
 
 }

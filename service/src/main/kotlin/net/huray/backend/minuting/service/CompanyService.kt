@@ -16,7 +16,7 @@ class CompanyService(
     fun listTeam() = authenticationFacade.uid.run {
         userComponent.get(this)
             .let { companyComponent.listTeamByCompany(it.company) }
-            .map { TeamDto.TeamSimple(it.id, it.name, it.pId) }
+            .map { TeamDto.SimpleRes(it.id, it.name, it.pId) }
     }
 
 }

@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModel
 object CompanyDto {
 
     @ApiModel("회사 기본 응답 정보")
-    class CompanySimple(
+    class SimpleRes(
         val id: Long,
         val name: String,
         val ceo: String,

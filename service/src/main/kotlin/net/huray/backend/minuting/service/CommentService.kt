@@ -27,13 +27,13 @@ class CommentService(
                         commentRepository.save(it)
                     }
             }
-            .let { CommentDto.CommentSimple(it.id, it.contents) }
+            .let { CommentDto.SimpleRes(it.id, it.contents) }
 
     fun list(minutesId: Long) = minutesRepository.findById(minutesId)
         .orElseThrow { throw BaseException(MINUTES_NOT_FOUND, minutesId) }
         .let { minutesEntity ->
             commentRepository.findAllByMinutes(minutesEntity)
-                .map { CommentDto.CommentSimple(it.id, it.contents) }
+                .map { CommentDto.SimpleRes(it.id, it.contents) }
         }
 
     fun getComment(minutesId: Long, commentId: Long) = minutesRepository.findById(minutesId)
@@ -42,7 +42,7 @@ class CommentService(
             commentRepository.findById(commentId)
                 .orElseThrow { BaseException(MINUTES_NOT_FOUND, minutesId) }
                 .let {
-                    CommentDto.CommentDetail(it.id, it.contents)
+                    CommentDto.DetailRes(it.id, it.contents)
                         .apply { createdAt = it.createdAt; updatedAt = it.updatedAt }
                 }
         }

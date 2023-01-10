@@ -17,17 +17,17 @@ interface MinutesContract {
     @PostMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])
     fun create(
         @RequestBody req: MinutesDto.CreateReq
-    ): SingleResult<MinutesDto.MinutesSimple>
+    ): SingleResult<MinutesDto.SimpleRes>
 
     @ApiOperation("회의록 목록")
     @GetMapping(MINUTES, produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listSimple(
         req: MinutesDto.ListReq
-    ): ListResult<MinutesDto.MinutesSimple>
+    ): ListResult<MinutesDto.SimpleRes>
 
     @ApiOperation("회의록 상세 조회")
     @GetMapping("${MINUTES}/{minutesId}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getDetail(@PathVariable minutesId: Long): SingleResult<MinutesDto.MinutesDetail>
+    fun getDetail(@PathVariable minutesId: Long): SingleResult<MinutesDto.DetailRes>
 
     @ApiOperation("회의록 수정")
     @PutMapping("${MINUTES}/{minutesId}", produces = [MediaType.APPLICATION_JSON_VALUE])

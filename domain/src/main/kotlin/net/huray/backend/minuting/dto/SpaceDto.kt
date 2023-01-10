@@ -12,7 +12,7 @@ import springfox.documentation.annotations.ApiIgnore
 object SpaceDto {
 
     @ApiIgnore
-    open class SpaceBase(
+    open class BaseRes(
         @ApiModelProperty("스페이스 ID", required = true)
         val id: Long,
         @ApiModelProperty("스페이스 명", required = true)
@@ -26,43 +26,43 @@ object SpaceDto {
     )
 
     @ApiModel("스페이스 기본 응답 정보")
-    class SpaceSimple private constructor(
+    class SimpleRes private constructor(
         id: Long,
         name: String,
         description: String,
         icon: String,
         isPublic: Boolean
-    ) : SpaceBase(id, name, description, icon, isPublic) {
+    ) : BaseRes(id, name, description, icon, isPublic) {
 
         companion object {
             operator fun invoke(space: SpaceEntity) =
-                SpaceSimple(space.id, space.name, space.description, space.icon, space.isPublic)
+                SimpleRes(space.id, space.name, space.description, space.icon, space.isPublic)
         }
 
     }
 
     @ApiModel("공개 스페이스 응답 정보")
-    class SpacePublic private constructor(
+    class PublicRes private constructor(
         id: Long,
         name: String,
         description: String,
         icon: String,
         isPublic: Boolean
-    ) : SpaceBase(id, name, description, icon, isPublic) {
+    ) : BaseRes(id, name, description, icon, isPublic) {
 
         @ApiModelProperty("스페이스 참가여부", required = true)
         var isJoined: Boolean = false
 
         companion object {
             operator fun invoke(public: SpaceEntity, spaceEntityList: List<SpaceEntity>) =
-                SpacePublic(public.id, public.name, public.description, public.icon, public.isPublic)
+                PublicRes(public.id, public.name, public.description, public.icon, public.isPublic)
                     .apply { isJoined = spaceEntityList.any { it.id == public.id } }
         }
 
     }
 
     @ApiModel("스페이스 상세 응답 정보")
-    class SpaceDetail private constructor(
+    class DetailRes private constructor(
         id: Long,
         name: String,
         description: String,
@@ -73,8 +73,8 @@ object SpaceDto {
         @ApiModelProperty("스페이스 멤버 목록", required = true)
         val memberList: List<SpaceMemberBase>,
         @ApiModelProperty("스페이스 태그 목록", required = true)
-        val tagList: List<TagDto.TagSimple>
-    ) : SpaceBase(id, name, icon, description, isPublic) {
+        val tagList: List<TagDto.SimpleRes>
+    ) : BaseRes(id, name, icon, description, isPublic) {
 
         companion object {
             operator fun invoke(
@@ -82,7 +82,7 @@ object SpaceDto {
                 spacePermissionType: SpacePermissionType,
                 permissionList: List<PermissionEntity>,
                 spaceTagList: List<SpaceTagEntity>
-            ) = SpaceDetail(
+            ) = DetailRes(
                 space.id,
                 space.name,
                 space.description,
@@ -90,7 +90,7 @@ object SpaceDto {
                 space.isPublic,
                 spacePermissionType,
                 permissionList.map { SpaceMemberBase(it.member.name, it.type) },
-                spaceTagList.map { it.tag.run { TagDto.TagSimple(id, name, type, color, orderNum) } }
+                spaceTagList.map { it.tag.run { TagDto.SimpleRes(id, name, type, color, orderNum) } }
             )
         }
 
@@ -128,7 +128,6 @@ object SpaceDto {
         @ApiModelProperty("스페이스 태그 ID 목록", required = true)
         val tagIdList: List<Long> = arrayListOf()
     )
-
 
     class SpaceMemberBase(
         @ApiModelProperty("멤버 명")

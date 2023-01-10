@@ -8,7 +8,7 @@ import springfox.documentation.annotations.ApiIgnore
 object TagDto {
 
     @ApiIgnore
-    open class TagBase(
+    open class BaseRes(
         @ApiModelProperty("태그 ID", required = true)
         var id: Long = 0L,
         @ApiModelProperty("태그명", required = true)
@@ -22,12 +22,12 @@ object TagDto {
     )
 
     @ApiModel("태그 기본 응답 정보")
-    class TagSimple(
+    class SimpleRes(
         id: Long,
         name: String,
         type: TagType,
         color: String,
         orderNum: Int,
-    ) : TagBase(id, name, type, color, orderNum)
+    ) : BaseRes(id, name, type, color, orderNum)
 
 }

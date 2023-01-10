@@ -11,6 +11,6 @@ class TagService(
 ) {
 
     fun listByType(type: TagType) = tagComponent.listByType(type)
-        .map { TagDto.TagSimple(it.id, it.name, it.type, it.color, it.orderNum) }
+        .map { TagDto.SimpleRes(it.id, it.name, it.type, it.color, it.orderNum) }
 
 }

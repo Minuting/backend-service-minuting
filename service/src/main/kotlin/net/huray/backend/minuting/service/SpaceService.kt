@@ -32,14 +32,14 @@ class SpaceService(
             else spaceComponent.getPermissionBySpaceAndMember(it, userComponent.get(uid))?.type
                 ?: SpacePermissionType.GUEST
 
-            SpaceDto.SpaceDetail(it, permission as SpacePermissionType, it.permissionList, it.spaceTagList)
+            SpaceDto.DetailRes(it, permission as SpacePermissionType, it.permissionList, it.spaceTagList)
         }
 
     fun listPublic(uid: UUID) = with(userComponent.get(uid)) {
         spaceComponent.listPermissionByMember(this)
             .map { it.space }
             .filter { it.isPublic }
-            .let { list -> spaceComponent.listPublic().map { SpaceDto.SpacePublic(it, list) } }
+            .let { list -> spaceComponent.listPublic().map { SpaceDto.PublicRes(it, list) } }
     }
 
     @Transactional
@@ -53,7 +53,7 @@ class SpaceService(
             spaceComponent.savePermissionAll(
                 req.permissionList.map { PermissionEntity(it.type, userComponent.get(it.memberId), space) }
             )
-        }.let { SpaceDto.SpaceSimple(it) }
+        }.let { SpaceDto.SimpleRes(it) }
 
 
     @Transactional
@@ -66,7 +66,7 @@ class SpaceService(
                     req.permissionList.map { PermissionEntity(it.type, userComponent.get(it.memberId), this) }
                 )
 
-                SpaceDto.SpaceSimple(this)
+                SpaceDto.SimpleRes(this)
             }
 
     @Transactional
