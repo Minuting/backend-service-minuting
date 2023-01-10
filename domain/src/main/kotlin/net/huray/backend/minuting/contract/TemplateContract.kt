@@ -17,17 +17,17 @@ interface TemplateContract {
     @PostMapping(TEMPLATE, produces = [MediaType.APPLICATION_JSON_VALUE])
     fun create(
         @RequestBody req: TemplateDto.CreateReq
-    ): SingleResult<TemplateDto.TemplateSimple>
+    ): SingleResult<TemplateDto.SimpleRes>
 
     @ApiOperation("템플릿 목록")
     @GetMapping(TEMPLATE, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun listSimple(): ListResult<TemplateDto.TemplateSimple>
+    fun listSimple(): ListResult<TemplateDto.SimpleRes>
 
     @ApiOperation("템플릿 상세 정보")
     @GetMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getDetail(
         @PathVariable templateId: Long
-    ): SingleResult<TemplateDto.TemplateDetail>
+    ): SingleResult<TemplateDto.DetailRes>
 
     @ApiOperation("템플릿 수정")
     @PutMapping("${TEMPLATE}/{templateId}", produces = [MediaType.APPLICATION_JSON_VALUE])

@@ -15,13 +15,13 @@ class SpaceController(
     private val authenticationFacade: AuthenticationFacade
 ) : SpaceContract {
 
-    override fun create(req: SpaceDto.CreateReq): SingleResult<SpaceDto.SpaceSimple> =
+    override fun create(req: SpaceDto.CreateReq) =
         SingleResult(spaceService.create(authenticationFacade.uid, req))
 
-    override fun get(id: Long): SingleResult<SpaceDto.SpaceDetail> =
+    override fun get(id: Long) =
         SingleResult(spaceService.get(authenticationFacade.uid, id))
 
-    override fun listPublic(): ListResult<SpaceDto.SpacePublic> =
+    override fun listPublic() =
         ListResult(spaceService.listPublic(authenticationFacade.uid))
 
     override fun update(id: Long, req: SpaceDto.UpdateReq): DoneResult {

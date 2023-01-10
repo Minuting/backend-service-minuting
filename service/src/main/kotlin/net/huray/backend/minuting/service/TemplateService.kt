@@ -17,7 +17,7 @@ class TemplateService(
 ) {
 
     @Transactional
-    fun create(req: TemplateDto.CreateReq): TemplateDto.TemplateSimple {
+    fun create(req: TemplateDto.CreateReq): TemplateDto.SimpleRes {
         val user = userComponent.get(req.userId)
 
         return TemplateEntity(req.title, req.contents, user)
@@ -47,10 +47,10 @@ class TemplateService(
 
     // TODO: 유저 회원정보가 완료되면 User 리턴값 수정
     private fun TemplateEntity.toTemplateSimple() =
-        TemplateDto.TemplateSimple(id, null, title, contents)
+        TemplateDto.SimpleRes(id, null, title, contents)
 
     private fun TemplateEntity.toTemplateDetail() =
-        TemplateDto.TemplateDetail(id, null, title, contents)
+        TemplateDto.DetailRes(id, null, title, contents)
             .also { it.createdAt = this.createdAt; it.updatedAt = this.updatedAt }
 
 }

@@ -15,15 +15,15 @@ interface SpaceContract {
 
     @ApiOperation("스페이스 생성")
     @PostMapping(SPACES, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun create(@RequestBody req: SpaceDto.CreateReq): SingleResult<SpaceDto.SpaceSimple>
+    fun create(@RequestBody req: SpaceDto.CreateReq): SingleResult<SpaceDto.SimpleRes>
 
     @ApiOperation("스페이스 상세 조회")
     @GetMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun get(@PathVariable id: Long): SingleResult<SpaceDto.SpaceDetail>
+    fun get(@PathVariable id: Long): SingleResult<SpaceDto.DetailRes>
 
     @ApiOperation("공개 스페이스 목록")
     @GetMapping("${SPACES}/public", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun listPublic(): ListResult<SpaceDto.SpacePublic>
+    fun listPublic(): ListResult<SpaceDto.PublicRes>
 
     @ApiOperation("스페이스 수정")
     @PutMapping("${SPACES}/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])

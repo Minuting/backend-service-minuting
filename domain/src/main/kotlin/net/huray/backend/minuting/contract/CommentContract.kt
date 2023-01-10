@@ -18,20 +18,20 @@ interface CommentContract {
     fun add(
         @PathVariable minutesId: Long,
         @RequestBody req: CommentDto.CreateReq
-    ): SingleResult<CommentDto.CommentSimple>
+    ): SingleResult<CommentDto.SimpleRes>
 
     @ApiOperation("댓글 목록")
     @GetMapping(MINUTES_COMMENTS, produces = [MediaType.APPLICATION_JSON_VALUE])
     fun listSimple(
         @PathVariable minutesId: Long
-    ): ListResult<CommentDto.CommentSimple>
+    ): ListResult<CommentDto.SimpleRes>
 
     @ApiOperation("댓글 상세 정보")
     @GetMapping("${MINUTES_COMMENTS}/{commentId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getDetail(
         @PathVariable minutesId: Long,
         @PathVariable commentId: Long
-    ): SingleResult<CommentDto.CommentDetail>
+    ): SingleResult<CommentDto.DetailRes>
 
     @ApiOperation("댓글 수정")
     @PutMapping("${MINUTES_COMMENTS}/{commentId}", produces = [MediaType.APPLICATION_JSON_VALUE])

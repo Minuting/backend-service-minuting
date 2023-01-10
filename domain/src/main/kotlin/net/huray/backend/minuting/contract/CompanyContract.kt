@@ -13,6 +13,6 @@ interface CompanyContract {
 
     @ApiOperation("팀 목록")
     @GetMapping(COMPANY, produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun listTeam(): ListResult<TeamDto.TeamSimple>
+    fun listTeam(): ListResult<TeamDto.SimpleRes>
 
 }

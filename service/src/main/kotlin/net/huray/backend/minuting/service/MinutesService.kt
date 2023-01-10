@@ -15,12 +15,12 @@ class MinutesService(
 ) {
 
     fun list() = minutesRepository.findAll()
-        .map { MinutesDto.MinutesSimple(it.id, it.title, it.contents) }
+        .map { MinutesDto.SimpleRes(it.id, it.title, it.contents) }
 
     fun getDetailById(id: Long) = minutesRepository.findById(id)
         .orElseThrow { throw BaseException(ErrorCode.MINUTES_NOT_FOUND, id) }
         .let {
-            MinutesDto.MinutesDetail(it.id, it.title, it.contents).apply {
+            MinutesDto.DetailRes(it.id, it.title, it.contents).apply {
                 this.createdAt = it.createdAt
                 this.updatedAt = it.updatedAt
             }
@@ -28,7 +28,7 @@ class MinutesService(
 
     @Transactional
     fun create(req: MinutesDto.CreateReq) = minutesRepository.save(MinutesEntity(req.title, req.contents))
-        .let { MinutesDto.MinutesSimple(it.id, it.title, it.contents) }
+        .let { MinutesDto.SimpleRes(it.id, it.title, it.contents) }
 
     @Transactional
     fun update(id: Long, req: MinutesDto.UpdateReq) = minutesRepository.findById(id)

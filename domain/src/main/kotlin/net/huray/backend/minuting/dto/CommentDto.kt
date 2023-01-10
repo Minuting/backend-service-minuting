@@ -9,7 +9,7 @@ import java.time.LocalDateTime
 object CommentDto {
 
     @ApiIgnore
-    open class CommentBase(
+    open class BaseRes(
         @ApiModelProperty("댓글 ID")
         var commentId: Long,
 
@@ -18,16 +18,16 @@ object CommentDto {
     )
 
     @ApiModel("댓글 기본 응답 정보")
-    open class CommentSimple(
+    open class SimpleRes(
         commentId: Long,
         contents: String
-    ) : CommentBase(commentId, contents)
+    ) : BaseRes(commentId, contents)
 
     @ApiModel("댓글 상세 응답 정보")
-    class CommentDetail(
+    class DetailRes(
         commentId: Long,
         contents: String
-    ) : CommentSimple(commentId, contents) {
+    ) : SimpleRes(commentId, contents) {
 
         @ApiModelProperty("댓글 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
@@ -36,6 +36,7 @@ object CommentDto {
         @ApiModelProperty("댓글 최종 업데이트 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         var updatedAt: LocalDateTime? = null
+
     }
 
     @ApiModel("댓글 등록 요청 정보")

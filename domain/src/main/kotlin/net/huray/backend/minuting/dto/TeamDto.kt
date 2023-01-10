@@ -7,7 +7,7 @@ import springfox.documentation.annotations.ApiIgnore
 object TeamDto {
 
     @ApiIgnore
-    open class TeamBase(
+    open class BaseRes(
         @ApiModelProperty("팀 ID", required = true)
         val id: Long,
         @ApiModelProperty("팀 타입", required = true)
@@ -17,10 +17,10 @@ object TeamDto {
     )
 
     @ApiModel("팀 기본 응답 정보")
-    class TeamSimple(
+    class SimpleRes(
         id: Long,
         name: String,
         pId: Long? = null,
-    ) : TeamBase(id, name, pId)
+    ) : BaseRes(id, name, pId)
 
 }

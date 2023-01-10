@@ -30,20 +30,20 @@ object UserInfoDto {
         @ApiModelProperty("사용자 타입")
         val memberType: MemberType,
         @ApiModelProperty("회사 정보")
-        val company: CompanyDto.CompanySimple,
+        val company: CompanyDto.SimpleRes,
         @ApiModelProperty("팀 정보")
-        val team: TeamDto.TeamSimple,
+        val team: TeamDto.SimpleRes,
         @ApiModelProperty("참가 스페이스 목록")
-        val spaceList: List<SpaceDto.SpaceSimple>
+        val spaceList: List<SpaceDto.SimpleRes>
     )
 
     @ApiModel("유저 상세 응답 정보")
     open class UserInfoDetail(
         name: String,
         memberType: MemberType,
-        company: CompanyDto.CompanySimple,
-        team: TeamDto.TeamSimple,
-        spaceList: List<SpaceDto.SpaceSimple>
+        company: CompanyDto.SimpleRes,
+        team: TeamDto.SimpleRes,
+        spaceList: List<SpaceDto.SimpleRes>
     ) : UserInfo(name, memberType, company, team, spaceList)
 
 

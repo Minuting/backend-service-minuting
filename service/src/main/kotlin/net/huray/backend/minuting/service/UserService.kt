@@ -19,9 +19,9 @@ class UserService(
         .run {
             UserInfoDto.UserInfoDetail(
                 name, memberType,
-                CompanyDto.CompanySimple(company.id, company.name, company.ceo, company.telNumber, company.address),
-                TeamDto.TeamSimple(id = team.id, name = team.name),
-                spaceComponent.listPermissionByMember(this).map { SpaceDto.SpaceSimple(it.space) }
+                CompanyDto.SimpleRes(company.id, company.name, company.ceo, company.telNumber, company.address),
+                TeamDto.SimpleRes(id = team.id, name = team.name),
+                spaceComponent.listPermissionByMember(this).map { SpaceDto.SimpleRes(it.space) }
             )
         }
 

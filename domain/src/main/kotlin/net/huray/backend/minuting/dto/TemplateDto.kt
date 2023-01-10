@@ -10,7 +10,7 @@ import java.util.*
 object TemplateDto {
 
     @ApiIgnore
-    open class TemplateBase(
+    open class BaseRes(
         @ApiModelProperty("템플릿 ID")
         var templateId: Long,
 
@@ -26,20 +26,20 @@ object TemplateDto {
     )
 
     @ApiModel("템플릿 기본 응답 정보")
-    open class TemplateSimple(
+    open class SimpleRes(
         templateId: Long,
         user: UserInfoDto.UserInfoBase?,
         title: String,
         contents: String
-    ) : TemplateBase(templateId, user, title, contents)
+    ) : BaseRes(templateId, user, title, contents)
 
     @ApiModel("템플릿 상세 응답 정보")
-    class TemplateDetail(
+    class DetailRes(
         templateId: Long,
         user: UserInfoDto.UserInfoBase?,
         title: String,
         contents: String
-    ) : TemplateSimple(templateId, user, title, contents) {
+    ) : SimpleRes(templateId, user, title, contents) {
 
         @ApiModelProperty("템플릿 생성 일자")
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
